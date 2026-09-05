@@ -1,341 +1,533 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="giSSM1LcdDYHC9ppwntDRg">
-<head data-page-node-id="BJhdResgEybYCrRVaZ1D3n">
-<meta charset="UTF-8" data-page-node-id="qNTdS5Yam8ZJ7cPK55jSl8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="uwXo37KPzFY6wUY2o6ZNIX">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>裂项相消 · 1/(n×(n+2))</title>
 <style>
 :root{
-  --blue:#2563eb; --purple:#7c3aed; --orange:#ea580c;
-  --gold:#d97706; --goldbg:#fef3c7; --goldline:#f59e0b;
-  --ink:#1e293b; --sub:#475569; --line:#e2e8f0;
+  --blue:#3b82f6; --blue2:#60a5fa; --orange:#f97316; --orange2:#fb923c;
+  --ink:#1e293b; --sub:#64748b; --line:#cbd5e1; --ok:#16a34a;
+  --bg1:#eff6ff; --bg2:#fef9c3;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 html,body{height:100%}
-body{font-family:"PingFang SC","Source Han Sans SC","Microsoft YaHei",sans-serif;background:#e8edf3;color:var(--ink);overflow:hidden}
+body{font-family:"PingFang SC","Source Han Sans SC","Microsoft YaHei",sans-serif;background:#dce6f1;color:var(--ink);overflow:hidden}
 #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-#stage{position:relative;width:1280px;height:720px;flex:none;background:#ffffff;border-radius:12px;box-shadow:0 12px 40px rgba(15,23,42,.12);transform-origin:center center;overflow:hidden}
+#stage{position:relative;width:1280px;height:720px;background:linear-gradient(160deg,var(--bg1),var(--bg2));border-radius:28px;box-shadow:0 22px 60px rgba(30,41,59,.22);overflow:hidden;transform-origin:center center}
 
-.hd{position:absolute;top:22px;left:36px;font-size:20px;color:var(--sub);letter-spacing:1px}
-.hd b{color:var(--ink)}
+/* header */
+.hd{position:absolute;top:0;left:0;right:0;z-index:6;padding:16px 30px;display:flex;align-items:center;justify-content:space-between}
+.hd .title{font-size:20px;font-weight:800;letter-spacing:.3px}
+.hd .title b{color:var(--blue)}
+.hd .tag{font-size:13px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--blue),#8b5cf6);padding:5px 14px;border-radius:999px}
 
-/* ========== 分数组件 ========== */
-.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .08em;line-height:1.12}
-.frac .num{padding:0 3px}
-.frac .fline{align-self:stretch;height:2px;background:currentColor;margin:1px 0}
-.frac .den{padding:0 3px}
-.vn{font-family:Georgia,"Times New Roman",serif;font-style:italic}
-
-/* ========== 场景通用 ========== */
-.scene{position:absolute;inset:0;padding:56px 48px 124px;opacity:0;pointer-events:none;transform:translateY(24px);transition:opacity .45s ease,transform .45s ease;display:flex;flex-direction:column;justify-content:center}
+/* scenes base */
+.scene{position:absolute;inset:0;padding:48px 44px 92px;opacity:0;pointer-events:none;transform:translateY(24px);transition:opacity .45s ease,transform .45s ease;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px}
 .scene.active{opacity:1;pointer-events:auto;transform:none}
+.big-title{font-size:50px;font-weight:900;letter-spacing:1px}
+.big-title b{color:var(--blue)}
+.big-title .hl{color:var(--orange)}
+.subtitle{font-size:26px;font-weight:800;color:var(--ink)}
+.subtitle .hl{color:var(--orange)}
+.hint{font-size:21px;color:var(--sub);font-weight:600}
 
-@keyframes tIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* fraction */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:1.20em;margin:.12em;line-height:1.02}
+.frac .num{font-weight:800}
+.frac .fline{width:100%;height:.07em;min-height:2px;background:currentColor;border-radius:2px;margin:.08em 0}
+.frac .den{font-weight:800}
+.expr{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;font-size:62px;font-weight:800;gap:8px}
+.term{display:inline-flex;transition:transform .5s}
+.op{color:var(--sub);font-size:52px}
+.dotdot{color:var(--sub);font-size:54px;align-self:center}
 
-/* ========== 场景 A：原式亮相 + 聚焦首项 ========== */
-#sceneA{gap:76px}
-#sceneA .expr{text-align:center;font-size:54px;white-space:nowrap}
-#sceneA .term{display:inline-block;opacity:0}
-#sceneA .op{display:inline-block;margin:0 .25em;color:var(--sub);opacity:0}
-body.s1 #sceneA .term,body.s1 #sceneA .op{animation:tIn .5s both;animation-delay:calc(var(--i)*.14s)}
-#sceneA .ti{display:inline-block;transition:transform .6s ease}
-.f1{color:var(--blue);font-weight:600;display:inline-block}
-.f2{color:var(--purple);font-weight:600;display:inline-block}
-@keyframes fp{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-body.s1 #sceneA .f1,body.s1 #sceneA .f2{animation:fp 1s ease 1.3s}
-.anns{position:relative;height:60px}
-.ann{position:absolute;left:0;right:0;top:0;text-align:center;color:var(--sub);opacity:0}
-.annA{font-size:26px}
-body.s1 .annA{animation:fadeUp .6s both 1.7s}
-body.s2 .annA{animation:none;opacity:0;transition:opacity .35s}
-.annB{font-size:30px;color:var(--gold);font-weight:600}
-body.s2 .annB{animation:fadeUp .6s both .5s}
-body.s2 #sceneA .term,body.s2 #sceneA .op{opacity:.14;transition:opacity .6s}
-body.s2 #sceneA .term.first{opacity:1}
-body.s2 #sceneA .term.first .ti{transform:scale(1.65)}
+/* scene A */
+#sceneA{gap:34px}
+.a-note{font-size:24px;font-weight:700;color:var(--sub);display:flex;align-items:center;gap:12px}
+.a-note .chip{display:inline-block;background:#fff;border:2px solid var(--blue2);color:var(--blue);border-radius:12px;padding:10px 18px;font-weight:800;font-size:22px}
 
-/* ========== 场景 B：条形图直觉 ========== */
-#sceneB{gap:30px;align-items:center}
-.erow{display:flex;align-items:center;justify-content:center;gap:80px}
-.ecol{display:flex;flex-direction:column;gap:10px}
-.ecol.eright{align-items:center}
-#sceneB .bartitle{font-size:26px;margin:0}
-#sceneB .bartitle .frac{font-size:30px}
-.brow{display:flex;align-items:center;gap:16px;margin:14px 0}
-.blabel{width:80px;text-align:right;font-size:26px;color:var(--sub)}
-.bbox{position:relative;width:480px;height:48px}
-.bbar{position:absolute;left:0;top:0;height:48px;border-radius:7px;transform-origin:left center}
-.bfull{width:476px;background:#bfdbfe;border:2px solid var(--blue)}
-.bthird{width:158px;background:#ddd6fe;border:2px solid var(--purple)}
-.diffzone{position:absolute;left:162px;top:0;width:310px;height:48px;border-radius:7px;
-  background:repeating-linear-gradient(45deg,#fde68a 0 9px,#fff7e0 9px 18px);
-  border:2px dashed var(--gold);opacity:0}
-.diffnote{margin:8px 0 2px;font-size:28px;opacity:0}
-.diffnote b{color:var(--gold)}
-.halfrow{display:flex;align-items:center;gap:14px}
-.bhalf{width:158px;height:52px;border-radius:7px;background:#fcd34d;border:2px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#92400e;
-  transform-origin:left center;opacity:0}
-.halfeq{font-size:24px;color:var(--sub);opacity:0;text-align:center;max-width:400px}
-.halfeq b{color:var(--gold)}
-.beq{text-align:center;font-size:40px;opacity:0}
-.beq .half2{color:var(--gold);font-weight:700}
-body.s3 .bfull{animation:growX .55s both .1s}
-body.s3 .brow .blabel{animation:fadeIn .5s both .1s}
-body.s3 .bthird{animation:growX .55s both .6s}
-body.s3 .diffzone{animation:fadeIn .5s both 1.2s}
-body.s3 .diffnote{animation:fadeUp .5s both 1.6s}
-body.s3 .bhalf.h1{animation:growX .5s both 2.2s}
-body.s3 .bhalf.h2{animation:growX .5s both 2.6s}
-body.s3 .bhalf{opacity:1}
-body.s3 .halfeq{animation:fadeUp .5s both 3s}
-body.s3 .beq{animation:fadeUp .6s both 3.5s}
+.a-hook{font-size:24px;font-weight:800;color:var(--blue);background:#fff;border-radius:16px;padding:20px 32px;box-shadow:0 8px 22px rgba(59,130,246,.16)}
+.a-hook .hl{color:var(--orange)}
+.bubble-bounce{animation:bounce 1.6s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
-/* ========== 场景 C：通项公式 ========== */
-#sceneC{gap:64px;align-items:center}
-#sceneC .cformula{text-align:center;font-size:58px}
-#sceneC .vn.n1{color:var(--blue);font-weight:600}
-#sceneC .vn.n2{color:var(--purple);font-weight:600}
-#sceneC .half2{color:var(--gold);font-weight:700}
-.cann{text-align:center;font-size:30px;color:#b45309;opacity:0}
-.cann .arr{color:var(--gold);font-weight:700}
-@keyframes ring{0%,100%{box-shadow:0 0 0 2px var(--goldline)}50%{box-shadow:0 0 0 6px rgba(245,158,11,.35)}}
-.hl2{display:inline-block;border-radius:8px;padding:0 4px;background:var(--goldbg)}
-body.s4 .cformula{animation:fadeUp .7s both .2s}
-body.s4 .hl2{animation:ring 1.6s ease 1.2s infinite}
-body.s4 .cann{animation:fadeUp .6s both 1.1s}
+/* counts bounce-in */
+.come{opacity:0}
+body.s1 #sceneA .come{animation:comeUp .6s ease both}
+body.s1 #sceneA .come:nth-child(1){animation-delay:.05s}
+body.s1 #sceneA .come:nth-child(2){animation-delay:.25s}
+body.s1 #sceneA .come:nth-child(3){animation-delay:.45s}
+body.s1 #sceneA .come:nth-child(4){animation-delay:.65s}
+body.s1 #sceneA .come:nth-child(5){animation-delay:.85s}
+@keyframes comeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-/* ========== 场景 D：展开 → 抵消 → 残骸 → 结果 ========== */
-#sceneD{gap:36px}
-#sceneD .dtitle{text-align:center;font-size:26px;color:var(--sub);opacity:0}
-body.s5 #sceneD .dtitle{animation:fadeIn .5s both .1s}
-.expand{display:flex;align-items:center;justify-content:center}
-.coeff{font-size:40px;color:var(--gold);font-weight:700;margin-right:4px}
-.paren{font-size:140px;font-weight:200;color:#94a3b8;line-height:.9}
-.cols{display:flex;gap:5px;margin:0 4px}
-.col{width:96px;display:flex;flex-direction:column;align-items:center;gap:32px}
-.tok{font-size:24px;border-radius:8px;padding:3px 4px;white-space:nowrap}
-.tok .frac{font-size:24px}
-.pos{color:var(--blue)}
-.neg{color:var(--orange)}
-body.s5 .coeff,body.s5 .paren{animation:fadeIn .5s both}
-@keyframes splitL{from{opacity:0;transform:translate(-18px,-12px)}to{opacity:1;transform:none}}
-@keyframes splitR{from{opacity:0;transform:translate(18px,12px)}to{opacity:1;transform:none}}
-body.s5 .col .pos{animation:splitL .5s both;animation-delay:calc(var(--i)*.1s)}
-body.s5 .col .neg{animation:splitR .5s both;animation-delay:calc(var(--i)*.1s)}
+/* scene B warmup */
+#sceneB{gap:22px}
+.warm-wrap{display:flex;flex-direction:column;gap:16px;align-items:center}
+.termrow{display:flex;align-items:center;gap:18px;background:#fff;border-radius:16px;padding:12px 22px;box-shadow:0 6px 18px rgba(30,41,59,.08)}
+.tlabel{font-size:26px;font-weight:800;min-width:112px;text-align:center}
+.rods{display:flex;gap:18px;align-items:center}
+.rodset{display:flex;align-items:center;gap:8px}
+.rsign{font-size:34px;font-weight:900}
+.rsign.plus{color:var(--blue)}
+.rsign.minus{color:var(--orange)}
+.rod{display:flex;align-items:center;justify-content:center;border-radius:12px;color:#fff;font-weight:800;font-size:20px;height:46px;min-width:42px;transition:transform .6s ease,opacity .6s ease,width .5s ease;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.rod.blue{background:linear-gradient(180deg,var(--blue2),var(--blue))}
+.rod.orange{background:linear-gradient(180deg,var(--orange2),var(--orange))}
+.match{position:relative}
+.match.glow{animation:glowPulse 1.1s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.5)}50%{box-shadow:0 0 0 10px rgba(139,92,246,0)}}
+.match-flag{position:absolute;top:-36px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#8b5cf6;color:#fff;font-size:16px;font-weight:800;padding:5px 12px;border-radius:999px}
+.warm-link{font-size:22px;font-weight:800;color:var(--sub)}
+.warm-link .hl{color:#8b5cf6}
+button.pill{font-size:22px;font-weight:800;color:#fff;background:linear-gradient(90deg,var(--orange),#f59e0b);border:none;border-radius:999px;padding:16px 36px;cursor:pointer;box-shadow:0 8px 20px rgba(249,115,22,.35);transition:transform .15s}
+button.pill:hover{transform:translateY(-2px)}
+button.pill:disabled{opacity:.4;cursor:not-allowed}
+.pulse{animation:btnPulse 1.4s ease-in-out infinite}
+@keyframes btnPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.result-card{background:#fff;border-radius:18px;padding:20px 32px;font-size:24px;font-weight:800;box-shadow:0 6px 18px rgba(30,41,59,.1)}
+.result-card .ok{color:var(--ok)}
 
-@keyframes cPos{0%{opacity:1}20%{transform:translateY(9px) scale(1.2);background:var(--goldbg);box-shadow:0 0 0 3px var(--goldline)}
- 55%{transform:translateY(9px) scale(1.12);background:var(--goldbg);box-shadow:0 0 0 3px var(--goldline);opacity:.95}
- 100%{opacity:.12;transform:scale(.9)}}
-@keyframes cNeg{0%{opacity:1}20%{transform:translateY(-9px) scale(1.2);background:var(--goldbg);box-shadow:0 0 0 3px var(--goldline)}
- 55%{transform:translateY(-9px) scale(1.12);background:var(--goldbg);box-shadow:0 0 0 3px var(--goldline);opacity:.95}
- 100%{opacity:.12;transform:scale(.9)}}
-body.s6 .col:nth-child(1) .neg{animation:cNeg 1.1s ease both .05s}
-body.s6 .col:nth-child(3) .pos{animation:cPos 1.1s ease both .05s}
-body.s6 .col:nth-child(2) .neg{animation:cNeg 1.1s ease both .5s}
-body.s6 .col:nth-child(4) .pos{animation:cPos 1.1s ease both .5s}
-body.s6 .col:nth-child(3) .neg{animation:cNeg 1.1s ease both .95s}
-body.s6 .col:nth-child(5) .pos{animation:cPos 1.1s ease both .95s}
-body.s6 .col:nth-child(4) .neg{animation:cNeg 1.1s ease both 1.4s}
-body.s6 .col:nth-child(6) .pos{animation:cPos 1.1s ease both 1.4s}
-body.s6 .col:nth-child(5) .neg{animation:cNeg 1.1s ease both 1.85s}
-body.s6 .col:nth-child(7) .pos{animation:cPos 1.1s ease both 1.85s}
-body.s6 .col:nth-child(6) .neg{animation:cNeg 1.1s ease both 2.3s}
-body.s6 .col:nth-child(8) .pos{animation:cPos 1.1s ease both 2.3s}
-body.s6 .col:nth-child(7) .neg{animation:cNeg 1.1s ease both 2.75s}
-body.s6 .col:nth-child(9) .pos{animation:cPos 1.1s ease both 2.75s}
-body.s6 .col:nth-child(8) .neg{animation:cNeg 1.1s ease both 3.2s}
-body.s6 .col:nth-child(10) .pos{animation:cPos 1.1s ease both 3.2s}
+/* scene C */
+#sceneC{gap:28px}
+.measure{display:flex;align-items:center;gap:18px;background:#fff;border-radius:18px;padding:24px 32px;box-shadow:0 6px 18px rgba(30,41,59,.1)}
+.meas{display:flex;flex-direction:column;gap:8px}
+.measrow{display:flex;align-items:center;gap:10px}
+.measrow .lab{font-size:20px;font-weight:800;min-width:44px}
+.mbar{height:54px;border-radius:12px;position:relative}
+.mbar.blue{background:linear-gradient(180deg,var(--blue2),var(--blue))}
+.mbar.orange{background:linear-gradient(180deg,var(--orange2),var(--orange))}
+.mbar.gray{background:#e2e8f0;border:2px dashed #94a3b8}
+.cellmark{position:absolute;top:-4px;bottom:-4px;width:2px;background:#8b5cf6}
+.cellflag{position:absolute;top:-36px;transform:translateX(-50%);font-size:16px;font-weight:800;color:#8b5cf6;white-space:nowrap}
+.formula-card{font-size:64px;font-weight:900}
+.formula-card .blue{color:var(--blue)}
+.formula-card .orange{color:var(--orange)}
+.formula-card .hl{color:var(--orange)}
 
-@keyframes surv{0%{}40%{transform:scale(1.25);background:var(--goldbg);box-shadow:0 0 0 4px var(--goldline)}
- 100%{transform:scale(1.12);background:#fffbeb;box-shadow:0 0 0 3px #fbbf24}}
-body.s7 .col:nth-child(1) .pos,body.s7 .col:nth-child(2) .pos,
-body.s7 .col:nth-child(9) .neg,body.s7 .col:nth-child(10) .neg{animation:surv .8s ease both}
+/* scene D split */
+#sceneD{gap:24px}
+.split-grid{display:grid;grid-template-columns:repeat(2,minmax(0,530px));gap:12px 30px}
+.srow{display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 4px 10px rgba(30,41,59,.06)}
+.srow .sidx{font-size:18px;font-weight:800;color:var(--sub);min-width:42px}
+.srow .sfrac{font-size:22px;font-weight:800}
+.sbar{height:38px;border-radius:9px}
+.sbar.blue{background:var(--blue2)}
+.sbar.orange{background:var(--orange2)}
+.srow .sar{font-weight:900;font-size:28px}
 
-.result{text-align:center;font-size:34px;opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
-.result .frac{font-size:32px}
-.result .half2{color:var(--gold);font-weight:700}
-body.s7 .r7{opacity:1;transform:none;transition-delay:.5s}
-body.s8 .r8{opacity:1;transform:none;transition-delay:.1s}
-.final{color:#b45309;font-weight:800}
-.final .frac{font-size:36px}
+/* scene E histogram */
+#sceneE{gap:18px}
+#hist{display:flex;flex-direction:column;gap:2px;width:100%;max-width:1120px}
+.hist-row{display:flex;align-items:center;gap:12px;margin:1px 0}
+.hist-row .label{width:76px;text-align:right;font-size:21px;font-weight:800}
+.hist-row .track{flex:1;display:flex;align-items:center;justify-content:space-between;height:30px;background:#e9f0fa;border-radius:10px;padding:0 8px;overflow:hidden}
+.hist-row .bar{height:25px;border-radius:8px;transition:transform .6s ease,opacity .6s ease}
+.hist-row .bar.blue{background:linear-gradient(180deg,var(--blue2),var(--blue))}
+.hist-row .bar.orange{background:linear-gradient(180deg,var(--orange2),var(--orange))}
+.hist-row .sig{font-size:25px;font-weight:900;color:var(--sub)}
+.hist-row .state{width:90px;font-size:18px;font-weight:800;text-align:center;color:var(--sub)}
+.hist-row.pair .state.cancel{color:#7c3aed}
+.hist-row .state.surv{color:var(--ok)}
+.hist-row.pair{cursor:pointer}
+.hist-row.survive .label{color:var(--orange)}
+.hist-row.survive .track{background:#fff7ed;box-shadow:0 0 0 2px #fdba74}
+.hist-legend{font-size:19px;font-weight:700;color:var(--sub)}
 
-/* ========== 场景 E：总结 ========== */
-#sceneE{gap:48px}
-#sceneE .etitle{text-align:center;font-size:34px;font-weight:700;opacity:0}
-.cards{display:flex;justify-content:center;gap:36px}
-.card{width:260px;padding:26px 22px;border:2px solid var(--line);border-radius:16px;text-align:center;background:#fbfdff;opacity:0}
-.card .ck{font-size:56px;font-weight:800;margin-bottom:12px}
-.card:nth-child(1) .ck{color:var(--gold)}
-.card:nth-child(2) .ck{color:var(--blue)}
-.card:nth-child(3) .ck{color:var(--purple)}
-.card .cd{font-size:22px;color:var(--sub);line-height:1.6}
-.practice{text-align:center;font-size:28px;opacity:0}
-.practice b{color:var(--gold)}
-body.s9 .etitle{animation:fadeUp .6s both .1s}
-body.s9 .card{animation:fadeUp .55s both;animation-delay:calc(.3s + var(--i)*.25s)}
-body.s9 .practice{animation:fadeUp .6s both 1.3s}
+/* scene F */
+#sceneF{gap:30px}
+.surv-show{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:center}
+.survcard{background:#fff;border-radius:18px;padding:18px 28px;text-align:center;box-shadow:0 6px 18px rgba(30,41,59,.12)}
+.survcard .cap{font-size:18px;font-weight:800;color:var(--sub);margin-bottom:8px}
+.survcard .card-frac{font-size:52px;font-weight:900;display:flex;justify-content:center;align-items:center;gap:.18em}
+.survcard.pos .card-frac{color:var(--blue)}
+.survcard.neg .card-frac{color:var(--orange)}
+.calc-line{font-size:48px;font-weight:900;text-align:center;line-height:1.1}
+.calc-line .frac{vertical-align:middle}
+.calc-line .hl{color:var(--orange)}
 
-/* ========== 提词 + 控制条 ========== */
-.tip{position:absolute;left:0;right:0;bottom:0;height:40px;display:flex;align-items:center;justify-content:center;
-  background:#fffbeb;border-top:1px solid #fde68a;font-size:16px;color:#92400e;white-space:nowrap;overflow:hidden}
-body.notips .tip{display:none}
-.controls{position:absolute;right:16px;bottom:52px;display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:5px 10px;box-shadow:0 3px 10px rgba(15,23,42,.08)}
-.controls button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #cbd5e1;background:#fff;cursor:pointer;padding:0;transition:.15s}
-.controls button svg{width:16px;height:16px;stroke:#334155;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.controls button:hover:not(:disabled){background:#f1f5f9;border-color:#94a3b8}
-.controls button:disabled{opacity:.35;cursor:default}
-.controls .ind{font-size:14px;color:var(--sub);min-width:38px;text-align:center}
+/* scene G */
+#sceneG{gap:28px}
+.cards{display:flex;gap:20px}
+.card{width:200px;background:#fff;border-radius:20px;padding:26px 18px;text-align:center;box-shadow:0 8px 20px rgba(30,41,59,.12)}
+.card .ck{font-size:62px;font-weight:900;margin-bottom:10px}
+.card:nth-child(1) .ck{color:var(--blue)}
+.card:nth-child(2) .ck{color:#8b5cf6}
+.card:nth-child(3) .ck{color:var(--orange)}
+.card:nth-child(4) .ck{color:var(--ok)}
+.card .cd{font-size:17px;font-weight:700;color:var(--sub);line-height:1.5}
+.practice{background:#fff;border-radius:18px;padding:22px 34px;font-size:28px;font-weight:800;box-shadow:0 6px 18px rgba(30,41,59,.12);text-align:center}
+.arrow{font-size:36px;font-weight:900;color:var(--orange);align-self:center}
+
+/* mascot */
+.mascot{position:absolute;right:22px;bottom:78px;z-index:7;width:96px;height:96px;transition:transform .3s}
+.mascot .face{transform-origin:50% 60%}
+.mascot.wobble{animation:mWobble .5s ease}
+@keyframes mWobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(12deg)}}
+.mascot.happy{animation:mHappy .7s ease}
+@keyframes mHappy{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}60%{transform:translateY(-6px)}}
+.say{position:absolute;right:124px;bottom:118px;z-index:7;background:#fff;border-radius:16px;padding:10px 16px;font-size:17px;font-weight:800;color:var(--ink);box-shadow:0 8px 20px rgba(30,41,59,.18);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:300px}
+.say.show{opacity:1}
+.say:after{content:"";position:absolute;right:-8px;bottom:16px;border:8px solid transparent;border-left-color:#fff}
+
+/* confetti */
+.confetti{position:absolute;width:10px;height:14px;border-radius:2px;z-index:9;pointer-events:none;animation:confFall 1.5s ease-in forwards}
+@keyframes confFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(540deg);opacity:0}}
+.spark{position:absolute;font-size:20px;z-index:8;pointer-events:none;animation:sparkPop .7s ease-out forwards}
+@keyframes sparkPop{0%{transform:scale(.4);opacity:1}100%{transform:scale(2);opacity:0}}
+
+/* tip + controls */
+.tip{position:absolute;left:30px;right:30px;bottom:56px;z-index:5;text-align:center;font-size:18px;font-weight:700;color:var(--ink);background:rgba(255,255,255,.86);border-radius:12px;padding:9px 16px;box-shadow:0 4px 12px rgba(30,41,59,.08)}
+body.notips .tip{opacity:0;visibility:hidden}
+.controls{position:absolute;left:0;right:0;bottom:0;z-index:6;height:46px;display:flex;align-items:center;justify-content:center;gap:14px;background:rgba(255,255,255,.7);backdrop-filter:blur(4px)}
+.controls button{width:42px;height:36px;border:none;border-radius:10px;background:#fff;cursor:pointer;box-shadow:0 3px 8px rgba(30,41,59,.12);display:flex;align-items:center;justify-content:center}
+.controls button:disabled{opacity:.35;cursor:not-allowed}
+.controls button svg{width:20px;height:20px;fill:none;stroke:#334155;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ind{font-size:15px;font-weight:800;color:var(--ink);min-width:44px;text-align:center}
+.stars{display:flex;gap:5px}
+.stars span{width:14px;height:14px;border-radius:50%;background:#cbd5e1;transition:background .3s}
+.stars span.on{background:#f59e0b}
 </style>
 </head>
-<body data-page-node-id="MzCiC7T4yCLnh5GD6DG8DV">
-<div id="viewport" data-page-node-id="iv7VbVrwzOoA31sWeZCKwg">
-<div id="stage" data-page-node-id="TUarE9odKiDs8OFfpnNQ7U">
-  <div class="hd" data-page-node-id="u8BWmpwDggNUiml6IgtoRT">分数巧算 · <b data-page-node-id="0Gh8yPPtq8j918a0hMJfda">裂项相消</b>（分母是 n×(n+2)）</div>
+<body>
+<div id="viewport">
+<div id="stage">
 
-  <!-- 场景 A -->
-  <div class="scene" id="sceneA" data-page-node-id="UfD27fF2WMCoVSNfBk3hiw">
-    <div class="expr" data-page-node-id="DXeiCtgSmol4HtFYsNjAqU">
-      <span class="term first" style="--i:0" data-page-node-id="DdRqx2cb8w2zmx4brwKe09"><span class="ti" data-page-node-id="ZLZM7cFoXIITho0ysG7Nk8"><span class="frac" data-page-node-id="GzeEfhUMmC79GfEJ10Uc3g"><span class="num" data-page-node-id="CmEQxO65AAZqxhFXx2faGu">1</span><span class="fline" data-page-node-id="R247QeM3DKEqMcmcE9klkA"></span><span class="den" data-page-node-id="DFDt6uZexHzPT8ZC1bEmtF"><span class="f1" data-page-node-id="AgAdLVZ4F0AeGE2C5HH4hf">1</span>×<span class="f2" data-page-node-id="QgdKQkpm0KASlRVKWClDJV">3</span></span></span></span></span>
-      <span class="op" style="--i:1" data-page-node-id="gC9RbrY8wKMPvv9MF3bgR0">+</span>
-      <span class="term" style="--i:2" data-page-node-id="UZnaJuaRAmcHYbuyvPBxGS"><span class="ti" data-page-node-id="BV6DG0QUCoqduWx1TwK1QQ"><span class="frac" data-page-node-id="1MpJo0fSRMDop0WFeGHvbU"><span class="num" data-page-node-id="Ui1RsDvggh1KQ1U9TGYxcr">1</span><span class="fline" data-page-node-id="OvlS3Wre7xZwT2d1XL6njj"></span><span class="den" data-page-node-id="PIBopPCu0BZvwcgQTKIIkx"><span class="f1" data-page-node-id="N7OXt0PAZ3FVfSd6zukatj">2</span>×<span class="f2" data-page-node-id="Mbx5zLQSTGH695wwyHKmRo">4</span></span></span></span></span>
-      <span class="op" style="--i:3" data-page-node-id="DWISFJwrPdSlavkwdkKbmD">+</span>
-      <span class="term" style="--i:4" data-page-node-id="5oHM9mD3q9nb5xQhuLdZ72"><span class="ti" data-page-node-id="JXiNh48DtqIvPS2AqU2GyR"><span class="frac" data-page-node-id="mM5Kpbg50XBM2vzjZTIFoM"><span class="num" data-page-node-id="p9Gl06eXIn8chU1elacQBj">1</span><span class="fline" data-page-node-id="g5D8nsNjnz4LcXRBkXAvQK"></span><span class="den" data-page-node-id="CKzxTsZRFy06hLOIna8dJW"><span class="f1" data-page-node-id="D02jstzstjD8JMkRXCAPZ2">3</span>×<span class="f2" data-page-node-id="NmCS6ao84dgr4xG1Ldbyxe">5</span></span></span></span></span>
-      <span class="op" style="--i:5" data-page-node-id="qOfzwYWMbdVaBvSRCLUrCf">+</span>
-      <span class="op" style="--i:6" data-page-node-id="xqXK0995GQdj9pI1v7kWC2">⋯</span>
-      <span class="op" style="--i:7" data-page-node-id="Bo8x7Xz4SPL2mEBdjiHjGH">+</span>
-      <span class="term" style="--i:8" data-page-node-id="iSmv1cat2niC8VP2QSZ4wR"><span class="ti" data-page-node-id="KCBoItCP91zlKykYNa8wiC"><span class="frac" data-page-node-id="3RYiB2zBI3bP63uRX8cxMG"><span class="num" data-page-node-id="IPP5UJDHQzAILCnm6xzwUs">1</span><span class="fline" data-page-node-id="lXyWGBDxlP6bT2wZxTGcuH"></span><span class="den" data-page-node-id="QpudtH3VcnQAIPRZFnxsfB"><span class="f1" data-page-node-id="eI10ZyOhNFr7PfYA40uYX7">10</span>×<span class="f2" data-page-node-id="xQ7v7bwlNUSj55xsyXCkwg">12</span></span></span></span></span>
-    </div>
-    <div class="anns">
-      <div class="ann annA" data-page-node-id="J9gJigFAbqjH1DPfZ5rwyK">观察分母：两个数「隔一位」相乘　1×3　2×4　3×5 ……</div>
-      <div class="ann annB" data-page-node-id="dlx93YDbr9ACUwpsD487tU">先研究第一项：它能变成两个分数相减吗？</div>
-    </div>
+  <div class="hd">
+    <div class="title">分数巧算 · <b>裂项相消</b>（分母 n×(n+2)）</div>
+    <div class="tag">第 1 题 · 今天学：让分数变少</div>
   </div>
 
-  <!-- 场景 B -->
-  <div class="scene" id="sceneB" data-page-node-id="DfU41XAmZKd1cXCvDAZzGb">
-   <div class="erow">
-    <div class="ecol eleft">
-    <div class="bartitle" data-page-node-id="Kdi7KXkjw0BkABg2XSCsJg">以 <span class="frac" data-page-node-id="tD5qYVbdRNZ3ey5HJ5gW9P"><span class="num" data-page-node-id="WEvzzYjoenFgD6XucCeIrS">1</span><span class="fline" data-page-node-id="ymKnD2WKV8b8EEs5LACnEb"></span><span class="den" data-page-node-id="qV5oVFvQMdcEJ4j9BqNxxj">1×3</span></span> 为例：画两根条形看一看</div>
-    <div class="brow" data-page-node-id="Ec05iYWYX26YY5aewtSvwI">
-      <span class="blabel" data-page-node-id="T7j3RIdOsX9IPPLaFhKjTk">1</span>
-      <div class="bbox" data-page-node-id="Dlex3BNCfQ5POCvmkddHcO"><div class="bbar bfull" data-page-node-id="bwtV6IqFwcqapUGiCpYxs5"></div><div class="diffzone" data-page-node-id="7RIoJA6KgNtvsMAIldb3Yh"></div></div>
+  <div class="mascot" id="mascot">
+    <svg viewBox="0 0 100 100" width="96" height="96">
+      <g class="face">
+        <path d="M50 6 L60 32 L88 33 L66 51 L75 79 L50 63 L25 79 L34 51 L12 33 L40 32 Z" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="40" cy="42" r="4" fill="#1f2937"/>
+        <circle cx="60" cy="42" r="4" fill="#1f2937"/>
+        <circle cx="41" cy="41" r="1.6" fill="#fff"/>
+        <circle cx="61" cy="41" r="1.6" fill="#fff"/>
+        <path d="M44 52 Q50 58 56 52" fill="none" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="33" cy="49" r="4" fill="#fca5a5" opacity=".7"/>
+        <circle cx="67" cy="49" r="4" fill="#fca5a5" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+  <div class="say" id="say"></div>
+
+  <!-- 场景 A：原式亮相 -->
+  <div class="scene" id="sceneA">
+    <div class="big-title come">这么多分数，能<b>变少</b>吗？</div>
+    <div class="expr come">
+      <span class="term"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×3</span></span></span>
+      <span class="op">+</span>
+      <span class="term"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2×4</span></span></span>
+      <span class="op">+</span>
+      <span class="term"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">3×5</span></span></span>
+      <span class="op">+</span>
+      <span class="dotdot">…</span>
+      <span class="op">+</span>
+      <span class="term"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">10×12</span></span></span>
     </div>
-    <div class="brow" data-page-node-id="F2QUrD4jOu98XwvWech4xa">
-      <span class="blabel" data-page-node-id="DUAA6OmPA0VCpwzXi7KRcY"><span class="frac" data-page-node-id="28aDjqgTy55jPZseaMPYxr"><span class="num" data-page-node-id="YJJHlT6b90a3yukNPEkrMM">1</span><span class="fline" data-page-node-id="3ICyN4BmUogJaAOLro6LyQ"></span><span class="den" data-page-node-id="lp7Mwc0xaAsDvJ8CUHUawS">3</span></span></span>
-      <div class="bbox" data-page-node-id="P9oDHKDBeAvD0VSMEBQs0G"><div class="bbar bthird" data-page-node-id="aoTkRD5QClcJ3VUS2Z7Fb7"></div></div>
-    </div>
-    <div class="diffnote" data-page-node-id="o3T6aidhaoX9VZtQKFPDSf">差 = 1 − <span class="frac" data-page-node-id="tt7MHO0PSnCo3SF6W0QdJk"><span class="num" data-page-node-id="qLHzCwnKbILHIPb1fcDMRV">1</span><span class="fline" data-page-node-id="WBO8oujtakQvb6raH1bA3F"></span><span class="den" data-page-node-id="OBemUjOBG8L4WHHwRxJi4H">3</span></span> = <b data-page-node-id="kf1Q33xkhiBYh0CugSuaF9"><span class="frac" data-page-node-id="g4OtDXBcMUF1XudXtzpO2w"><span class="num" data-page-node-id="GYMxVHgWvT1zqxJyuR61dQ">2</span><span class="fline" data-page-node-id="8M2CGciPfMSJ4TJ1DpdXwU"></span><span class="den" data-page-node-id="WdqkBCdfSN8ktuKlRtN2kE">3</span></span></b></div>
-    </div>
-    <div class="ecol eright">
-    <div class="halfrow" data-page-node-id="wFAye4ItzTMx5feoN7ZGnG">
-      <div class="bhalf h1" data-page-node-id="Fn3X1vEfxVTv3ky2pDyDrH"><span class="frac" data-page-node-id="GI1PFgwOk50a3Fax7jTEbf"><span class="num" data-page-node-id="82FsHEzU0ZaLWpR3tH2vII">1</span><span class="fline" data-page-node-id="jJ1nknAINCyNK3N9gEE59g"></span><span class="den" data-page-node-id="4G1FwSXqaja2X37EhxQmz3">3</span></span></div>
-      <div class="bhalf h2" data-page-node-id="BOd8LXzR3BghxGAnRhYjd3"><span class="frac" data-page-node-id="vRKJDm48VAKAGkcIYC2rFx"><span class="num" data-page-node-id="wrAFHLIbT0FP3MBIFBo0DF">1</span><span class="fline" data-page-node-id="jtJXNDjjHt4vUQEMl4lWyP"></span><span class="den" data-page-node-id="XSDsCJvAPAQQJRCU3T1Qqg">3</span></span></div>
-    </div>
-    <div class="halfeq" data-page-node-id="cAizOl3HDHPDB5WuRCFNy3">差正好是 <b data-page-node-id="KSvG3sMSjINuzAKoJHptK8">两个</b> <span class="frac" data-page-node-id="5cEOIEAdKfMeBpFaF2I8aM"><span class="num" data-page-node-id="rVoV4BvCzt0HFKGkwuFhSr">1</span><span class="fline" data-page-node-id="5imvmiyV90bZSezrzNVQ7Q"></span><span class="den" data-page-node-id="d5CxCFdLEyICXQ243i08jL">3</span></span><br>→　差的一半就是原分数</div>
-    </div>
-   </div>
-    <div class="beq" data-page-node-id="Em1Hzo8sveDgsxoaRIs0RZ"><span class="frac" data-page-node-id="BcBkCdL47R2RGaeSGB75Ax"><span class="num" data-page-node-id="uX09lYhmHZfd3XXI7lMppV">1</span><span class="fline" data-page-node-id="oTTHPYWcxn5dZKbbGLHXO6"></span><span class="den" data-page-node-id="uQEhMHlDvSIhLeMumP3OIq">1×3</span></span> = <span class="half2" data-page-node-id="zB3Itx80PtOOWXSqdTohQg"><span class="frac" data-page-node-id="utDzH0zVA7GOq4phzjH7zQ"><span class="num" data-page-node-id="0ShmGkE7qsUvYuIi7pYZ9e">1</span><span class="fline" data-page-node-id="Wv53Mtxo8nLjaYiMToHdjI"></span><span class="den" data-page-node-id="6nRuN92hGEIKjSwcZ9HniS">2</span></span></span> × ( 1 − <span class="frac" data-page-node-id="KSZOqC4FCAuyWQjeF3OaVf"><span class="num" data-page-node-id="ODRmzIvEthgT2oza4h10xn">1</span><span class="fline" data-page-node-id="PhsCJ8T7rWeQVXwsvfOP9R"></span><span class="den" data-page-node-id="g9cfmmJHedwSa4JBMUzaGo">3</span></span> )</div>
+    <div class="a-note come">先看分母：两个数总是<b>隔一位</b>相乘</div>
+    <div class="a-note come"><span class="chip">1×3</span><span class="chip">2×4</span><span class="chip">3×5</span><span class="chip">…</span><span class="chip">10×12</span></div>
+    <div class="a-hook bubble-bounce come">要是每项都能<b>拆一拆</b>，中间就会自己消失 ✨</div>
   </div>
 
-  <!-- 场景 C -->
-  <div class="scene" id="sceneC" data-page-node-id="KCQjbSO4Si6S4GZtOM1iSr">
-    <div class="cformula" data-page-node-id="9BV266d0gxWQWDTyI9ZPFQ">
-      <span class="frac" data-page-node-id="NZKA9KFRR1xHLca5g6UeV1"><span class="num" data-page-node-id="iV5bUCNqIDcHsyAO3yuoHb">1</span><span class="fline" data-page-node-id="nVBHY1Wrlv08mLTLRS7Ua3"></span><span class="den" data-page-node-id="FCkoKwV8epNQ4pZBWYR2Yu"><span class="vn n1" data-page-node-id="0rSN6gm1DJyKOvvoxMYudb">n</span>×(<span class="vn n1" data-page-node-id="EKQZqKKZollGJcvg8Ocw8T">n</span>+<span class="hl2" data-page-node-id="P8hHJ7j9QBFdlwhI8eRNmN">2</span>)</span></span>
-      =
-      <span class="half2 hl2" data-page-node-id="15QooeczArjAcrNpUZahME"><span class="frac" data-page-node-id="8mpOCSuKcmxPZPNyCHHCzC"><span class="num" data-page-node-id="aJariIAdPqlyxTVEDv8fEJ">1</span><span class="fline" data-page-node-id="F0XONMSvR5QGdDbLKe8gDB"></span><span class="den" data-page-node-id="LHshnqGzVo7kQIx8tXh2Pm">2</span></span></span>
-      × (
-      <span class="frac" data-page-node-id="EvKAEbZCa8BMPGByyxXBCr"><span class="num" data-page-node-id="dpQHH1gS4sQkg7JbHv3tQz">1</span><span class="fline" data-page-node-id="VrWTi3YoS38X6k5FXfk2Di"></span><span class="den" data-page-node-id="uNwvzSbrUGbADbZ34JP6Nw"><span class="vn n1" data-page-node-id="uEVPcItOv3FVzRK9EWUzu1">n</span></span></span>
-      −
-      <span class="frac" data-page-node-id="NjMx3FFhRl1UCDr3wnyfC8"><span class="num" data-page-node-id="NgISAq1hqVLun8sD8ZEQJX">1</span><span class="fline" data-page-node-id="ixCuSZj1G55bp7xWErnXoj"></span><span class="den" data-page-node-id="iMokiVELtWDbcCC8aeRry3"><span class="vn n1" data-page-node-id="WEtMqbXYe2gS2y79WPYaLL">n</span>+<span class="vn n2" data-page-node-id="9sbrpxnbOEGlHqy01E7Jeb">2</span></span></span>
-      )
+  <!-- 场景 B：热身小例子 -->
+  <div class="scene" id="sceneB">
+    <div class="subtitle">先别急，拿<b class="hl">前两个</b>试一试 🧪</div>
+    <div class="expr" style="font-size:40px">
+      <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×3</span></span>
+      <span class="op">+</span>
+      <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">3×5</span></span>
     </div>
-    <div class="cann" data-page-node-id="yfjz3OUIEuwAO9VC9e7XNN">分母的间隙是 <b data-page-node-id="2ptikg1QMtcf7FlTS0SCbP">2</b> <span class="arr" data-page-node-id="LMfKsP7e1yORGhibRURdc7">→</span> 拆出来的差是原数的 2 倍 <span class="arr" data-page-node-id="GHRCgEGRfqFcFXh0bnUiAd">→</span> 乘 <b data-page-node-id="U9ua2jWxqDssGsNAPiZeWe">½</b> 缩回去</div>
-  </div>
-
-  <!-- 场景 D -->
-  <div class="scene" id="sceneD" data-page-node-id="u1ptwcaQmf6MrqjL2FHYqu">
-    <div class="dtitle" data-page-node-id="OSVGejBG6cZ8OJSceHa77z">把 10 项全部拆开：上排为正（蓝），下排为负（橙）</div>
-    <div class="expand" data-page-node-id="QulISPCK7I2eglYK7f0031">
-      <span class="coeff" data-page-node-id="BVsE3MQ4MEQsXbWUTKlXtM"><span class="frac" data-page-node-id="nGXQDOMgHuYaqYNpldv4yL"><span class="num" data-page-node-id="QlyGyVCMVU8oDGQAF7gZJq">1</span><span class="fline" data-page-node-id="vDExOZnHwZa4HgiBAxhy70"></span><span class="den" data-page-node-id="xiHAlsPUIVKrZBjt27w5s1">2</span></span></span>
-      <span class="paren" data-page-node-id="0ImiyuJyibyHRXyktE1ajZ">(</span>
-      <div class="cols" data-page-node-id="KQD40YocXi8oie0pdU0m8h">
-        <div class="col" style="--i:0" data-page-node-id="iELgjsJcfC1GiYc2AY4Ku5"><div class="tok pos" data-page-node-id="7kzFGHTZHlUQ7iNxtt8s6z">1</div><div class="tok neg" data-page-node-id="triHSJ8VsPkyr4r9OnSK3n">−<span class="frac" data-page-node-id="nYMNGafVTgQc75p2FNa87H"><span class="num" data-page-node-id="TNXmkNFFvqyY0VbKnnXp2c">1</span><span class="fline" data-page-node-id="AAEBB4QeDYMdM1C46gtoOQ"></span><span class="den" data-page-node-id="QOd7IRvSjl14kGyIYVbprC">3</span></span></div></div>
-        <div class="col" style="--i:1" data-page-node-id="OMOvuZBdsCoywGgFvFBq1i"><div class="tok pos" data-page-node-id="HnEeXKkc6gBsf9iVtJf3Dz">+<span class="frac" data-page-node-id="D54cEAwTCRVhBpb4zVyBck"><span class="num" data-page-node-id="okG3n6Nb3fVDpJ9sb5OovP">1</span><span class="fline" data-page-node-id="ocJrew1nKGNytDcgFTFNi8"></span><span class="den" data-page-node-id="LED9TXl7jNKRYG0MNFljtM">2</span></span></div><div class="tok neg" data-page-node-id="EGarLyvLPqiTDjlsgMFtPf">−<span class="frac" data-page-node-id="o6hxjYBgd0QDqi7univpx0"><span class="num" data-page-node-id="8lRzYFDJscRRr5kJWahl7i">1</span><span class="fline" data-page-node-id="CuLBI9mnZu3U6XYbELOpWQ"></span><span class="den" data-page-node-id="f4xwMewK6D9tTT07wpVLpU">4</span></span></div></div>
-        <div class="col" style="--i:2" data-page-node-id="zXjJUVxo2z8KsCr4DD1zDS"><div class="tok pos" data-page-node-id="65Nmdu4LfBiLyTFE6DlptJ">+<span class="frac" data-page-node-id="VrGASg7VtEiwtbDIyePMUO"><span class="num" data-page-node-id="ZkHgGu8R5wg1MG8kEbxSAD">1</span><span class="fline" data-page-node-id="9xffrUDusdytoCzTeFo8Qf"></span><span class="den" data-page-node-id="ZPIpYGkfM2N0G2nlh7FEDT">3</span></span></div><div class="tok neg" data-page-node-id="8m8LIGS03Ed9Ow0wztAssK">−<span class="frac" data-page-node-id="e3NMIRHIqWu2RUBps7BOGJ"><span class="num" data-page-node-id="HEGz0rdxZo4fVW5LMCeHho">1</span><span class="fline" data-page-node-id="2u4IDeR5KO2kLokZ4V9xpW"></span><span class="den" data-page-node-id="iGwfipmzPBRcX9m54ciEHg">5</span></span></div></div>
-        <div class="col" style="--i:3" data-page-node-id="tgPadFfL156aCKGzONTwjS"><div class="tok pos" data-page-node-id="aSD1bJioYsRif7GtDHnSNd">+<span class="frac" data-page-node-id="KRwjIRuaGzPcBi6xvirz5h"><span class="num" data-page-node-id="Gj0molzyX8SOE9sByPRuYU">1</span><span class="fline" data-page-node-id="Fc4Tl0SqWHVijWd3uoyJuZ"></span><span class="den" data-page-node-id="ipwPE8aJ3b2E9QC3zOdzZf">4</span></span></div><div class="tok neg" data-page-node-id="Copzcqjb9fNCZ7LDvINy80">−<span class="frac" data-page-node-id="x8ODOqujuEEUROllmbznXq"><span class="num" data-page-node-id="R7A8A62lTkFH2HUtspnrSA">1</span><span class="fline" data-page-node-id="6Bq5UATnmiu0ekrLULiNh8"></span><span class="den" data-page-node-id="tdYKsAcKJ82WXuWKedDvzU">6</span></span></div></div>
-        <div class="col" style="--i:4" data-page-node-id="tTtRMnerAhOn1F7Cuphcyg"><div class="tok pos" data-page-node-id="p8nCRma25N4jzfs5hzPa91">+<span class="frac" data-page-node-id="liBbDA7xH9Q7XBBnFALp34"><span class="num" data-page-node-id="y8stPG99QBtPnGoVuFKaF1">1</span><span class="fline" data-page-node-id="jBPt5EoHmanwwsgjSMsie4"></span><span class="den" data-page-node-id="SLQzFppAN95qhOCdHMw8zo">5</span></span></div><div class="tok neg" data-page-node-id="obH2YJ8RVL9LNsYBicp5Kf">−<span class="frac" data-page-node-id="kWa8ei6C2YViQK3HzFdQu1"><span class="num" data-page-node-id="LAOVMXeBO7jjtjDgjwttFf">1</span><span class="fline" data-page-node-id="95uU7wEqarSGOf98GFlCbY"></span><span class="den" data-page-node-id="gIP6TqUuDNDUiDhtjOjhOG">7</span></span></div></div>
-        <div class="col" style="--i:5" data-page-node-id="XP0INEvRNuP2Ea6vCKgKGC"><div class="tok pos" data-page-node-id="SQ8o1c6B0BGwVgVHVjLJcz">+<span class="frac" data-page-node-id="AOkXI9R9Gi9HUj4SjS65n3"><span class="num" data-page-node-id="7VUPy83OuoHmKcnNJvVy1k">1</span><span class="fline" data-page-node-id="Lq5gmqAaZ5JHFJIwqxiTHr"></span><span class="den" data-page-node-id="wC74xhJbOh7G6o7xP29sHa">6</span></span></div><div class="tok neg" data-page-node-id="BYPsSjIFO2x1rvM7YoZEbq">−<span class="frac" data-page-node-id="dL4O7mYkycrW6PfEXA4Q4H"><span class="num" data-page-node-id="lfWmtm4jq1ByXEHJMhBjrv">1</span><span class="fline" data-page-node-id="i6KFi13f2LSvsnKqXdSmna"></span><span class="den" data-page-node-id="BL6MYTFrKDx9iNOGYUUST1">8</span></span></div></div>
-        <div class="col" style="--i:6" data-page-node-id="6Coexkv6BkCrCwzQr5cQTZ"><div class="tok pos" data-page-node-id="wVmjc4jBw2P0oHD042NELc">+<span class="frac" data-page-node-id="kDIaE51mljzULXKfxuwuml"><span class="num" data-page-node-id="GwNv8rwlvhG1igkVFD6vtO">1</span><span class="fline" data-page-node-id="KhJgu4odrD2sEzXjuimT23"></span><span class="den" data-page-node-id="L0Oj6jNeoqbSkjAAQ3Q142">7</span></span></div><div class="tok neg" data-page-node-id="fvlhs6GcP3U3MmqpaxHGnL">−<span class="frac" data-page-node-id="V54qeaznr2l4X71pZQtpPn"><span class="num" data-page-node-id="yVcWBHEFBChGfTHPXXjkHG">1</span><span class="fline" data-page-node-id="d6KOFEs2728IjsJtR7cjoC"></span><span class="den" data-page-node-id="OeiON2g0LgNgGPhQfQ84WH">9</span></span></div></div>
-        <div class="col" style="--i:7" data-page-node-id="N34bT6U7Sy5FAlUNQaEw8S"><div class="tok pos" data-page-node-id="MW25aKR4YbUfIXHF8KGF4G">+<span class="frac" data-page-node-id="z7sCDfF9FoPaXx3ZLpIbpE"><span class="num" data-page-node-id="oChc4FajNyFxujqYF9boBi">1</span><span class="fline" data-page-node-id="pjysYBaxAJf1Pw96wkUsB8"></span><span class="den" data-page-node-id="i8ajQfRgASGOYgqaoolgq8">8</span></span></div><div class="tok neg" data-page-node-id="8UO2sZubi1skGRcP7hzh5U">−<span class="frac" data-page-node-id="H3EmgzLtx1OqeSfBlXcHIJ"><span class="num" data-page-node-id="Nygecf5S37hm3cUUReqLuu">1</span><span class="fline" data-page-node-id="3MR42d9CXkYHZisNQsbobY"></span><span class="den" data-page-node-id="gvzQd1WvVYeMBwru1cVMkx">10</span></span></div></div>
-        <div class="col" style="--i:8" data-page-node-id="psVNsTMU4Baxmg3YnaOda4"><div class="tok pos" data-page-node-id="cUC0bjZuzLEhWNsEACvmEK">+<span class="frac" data-page-node-id="jOCCkNDOK5twmtYwHCMNzv"><span class="num" data-page-node-id="BBr2XXKAS0qfZ99ALslzBq">1</span><span class="fline" data-page-node-id="C0vWAMaLUDILAMzTYmcEhM"></span><span class="den" data-page-node-id="zGH6XZq7alQ60BA96HIa1L">9</span></span></div><div class="tok neg" data-page-node-id="f16hPv0qhd21aevHQtCDL8">−<span class="frac" data-page-node-id="Dq1jTgnFDB7buYSWaOLu6x"><span class="num" data-page-node-id="gHnjfWDEPjIpy7BVuTJpbU">1</span><span class="fline" data-page-node-id="tA3RHDHTlwtsYV3mz8QKfj"></span><span class="den" data-page-node-id="EHN733XDADM2IkEOMnk0Hf">11</span></span></div></div>
-        <div class="col" style="--i:9" data-page-node-id="XsO42ebyGfa5HWsLZOMJYt"><div class="tok pos" data-page-node-id="YloGSY6AwGA5vPzV8vCEkh">+<span class="frac" data-page-node-id="9NsaQnRmSZJY6iyuHFD2gc"><span class="num" data-page-node-id="PFvWADcMoPQVDSklZZitda">1</span><span class="fline" data-page-node-id="884cQfUdEnN1zWdFsozPYp"></span><span class="den" data-page-node-id="irxEHtNhsNsGOVNjqx1QNz">10</span></span></div><div class="tok neg" data-page-node-id="ExW8aWYmRnMnJ3be7vXui0">−<span class="frac" data-page-node-id="CcyRIOGmYGhHVwGlydx8dw"><span class="num" data-page-node-id="mGSYmVecY7556rPDZ88swF">1</span><span class="fline" data-page-node-id="ST9LGMJfx5u4yRzALFAZ0T"></span><span class="den" data-page-node-id="aZqOWLJfKWcawzFnmstZ7k">12</span></span></div></div>
+    <div class="hint">每个分数都能拆成 <b style="color:var(--blue)">一根蓝棒(+)</b> 和 <b style="color:var(--orange)">一根橙棒(−)</b>：</div>
+    <div class="warm-wrap" id="warm">
+      <div class="termrow">
+        <div class="tlabel"><span style="font-size:20px">1/(1×3)</span></div>
+        <div class="rods">
+          <div class="rodset"><span class="rsign plus">+</span><div class="rod blue" style="width:330px"><span>1</span></div></div>
+          <div class="rodset"><span class="rsign minus">−</span><div class="rod orange match" style="width:110px"><span>1/3</span></div></div>
+        </div>
       </div>
-      <span class="paren" data-page-node-id="IqUfEs8jSSeGYMJIdCUUdE">)</span>
+      <div class="warm-link">中间这两根 <span class="hl">一样长</span>，一正一负 —— 能抵消！</div>
+      <div class="termrow">
+        <div class="tlabel"><span style="font-size:20px">1/(3×5)</span></div>
+        <div class="rods">
+          <div class="rodset"><span class="rsign plus">+</span><div class="rod blue match" style="width:110px"><span>1/3</span></div></div>
+          <div class="rodset"><span class="rsign minus">−</span><div class="rod orange" style="width:66px"><span>1/5</span></div></div>
+        </div>
+      </div>
     </div>
-    <div class="result r7" data-page-node-id="Zv6Bf2zBIDWq6RglEd0DHd">= <span class="half2" data-page-node-id="sjSFAKKZ7LP1qOh7eC4Cnr"><span class="frac" data-page-node-id="L4rPG9SjHm5765C06CETYV"><span class="num" data-page-node-id="C1IKBvJvlyEVaIJyaiPqYB">1</span><span class="fline" data-page-node-id="HDJyvHy9xu3f8lOlFyqQFy"></span><span class="den" data-page-node-id="8Gif2BTc0AeKkzG9jX7Pax">2</span></span></span> × ( 1 + <span class="frac" data-page-node-id="mIhOoRowxRknbbz9uHW3vh"><span class="num" data-page-node-id="rRV9yh3OYrDFGLlUBbgIT7">1</span><span class="fline" data-page-node-id="HZ19esnIkO61QC1I1377wN"></span><span class="den" data-page-node-id="NOQ6fjfzqBHBmibV5b3kjU">2</span></span> − <span class="frac" data-page-node-id="z0Qocqp2R9ma607uWaBlyf"><span class="num" data-page-node-id="18D3UC8zGDLhsR7jUkpZPb">1</span><span class="fline" data-page-node-id="l09RVxfSpFHhpL6v9KeRES"></span><span class="den" data-page-node-id="9pTtiOayL9tgKOCsuiSGos">11</span></span> − <span class="frac" data-page-node-id="EIOnVhs2FQdM73yAatCL32"><span class="num" data-page-node-id="OQnW5cDN1cLOrELCdZBv47">1</span><span class="fline" data-page-node-id="8TfnAESTX7MJjsysVOEtny"></span><span class="den" data-page-node-id="6SxVy9ziKqDKbc3tREmOwA">12</span></span> )</div>
-    <div class="result r8" data-page-node-id="wCpCrUAn96KSH8Af9fB1hu">= <span class="half2" data-page-node-id="wDApIwMvI2PWDCtaAoOlcR"><span class="frac" data-page-node-id="YAI8VNsDy0xLVJ7hg2mSbE"><span class="num" data-page-node-id="ZvynU4rsoSVjvyBGhR79HB">1</span><span class="fline" data-page-node-id="CdVolmOosD1vaAEQ17wjrI"></span><span class="den" data-page-node-id="9B1Fsn4ExzSU7w1UnD9ju6">2</span></span></span> × <span class="frac" data-page-node-id="tAw9hEfJcm86k6ZHzANGL4"><span class="num" data-page-node-id="9fMioXMgRca14YnRKVGvGZ">175</span><span class="fline" data-page-node-id="7y8eBAuX8cbunv8HMTOPhd"></span><span class="den" data-page-node-id="yEOugCyJgTH4bjp8xWTtQe">132</span></span> = <span class="final" data-page-node-id="kwcH5DqkicxNF6rDhJuvmF"><span class="frac" data-page-node-id="G1crO7ujwIY3MBlsAF5UBv"><span class="num" data-page-node-id="sQCA4uQhMwxvud8esX8RDX">175</span><span class="fline" data-page-node-id="WAzSDKjCcQ7IZHDYDQzrPg"></span><span class="den" data-page-node-id="pF4BldtcbcPIZ3ZzJgSZsO">264</span></span></span></div>
+    <button class="pill pulse" id="bCancel" hidden>让一样长的两根棒棒抵消 ✨</button>
+    <div class="result-card" id="bResult" hidden></div>
   </div>
 
-  <!-- 场景 E -->
-  <div class="scene" id="sceneE" data-page-node-id="HpVyZeKdqxIkZ5SnPP5DjQ">
-    <div class="etitle" data-page-node-id="0Ak1pyfd0IXKDMuCiCZiPN">裂项相消 · 三步口诀</div>
-    <div class="cards" data-page-node-id="Df2dIOthiu4qmX948x929G">
-      <div class="card" style="--i:0" data-page-node-id="EqO1LzHm5ACUzHb7xkhyMC"><div class="ck" data-page-node-id="7dniqCbonPpRyEnMfysXYC">拆</div><div class="cd" data-page-node-id="0dJcdLd58KKOWGW4iP96c2">看间隙定系数<br data-page-node-id="ft8zXxt86IsnSD1K9B66qz">间隙是 2 → 乘 ½</div></div>
-      <div class="card" style="--i:1" data-page-node-id="ewhTiN0D7w0DNwxCB4mCh6"><div class="ck" data-page-node-id="DRJPC2e8km31zMjhAWuNvo">消</div><div class="cd" data-page-node-id="UcSQsOHslVCEm4tFb0gr4c">隔两项配对<br data-page-node-id="nVMleUrU2bRL1KzBN9YXyw">一正一负相消</div></div>
-      <div class="card" style="--i:2" data-page-node-id="4aojJYoLlqTsB2kaKLQCHF"><div class="ck" data-page-node-id="G4DRN2cdKX1MDI4Hf4J8vn">算</div><div class="cd" data-page-node-id="LPk34cnlpTNBHkFljZARad">头尾各剩两项<br data-page-node-id="0h1JQ0ALr8ALHhwiijvQff">通分收尾</div></div>
+  <!-- 场景 C：量一量为什么是 ½ -->
+  <div class="scene" id="sceneC">
+    <div class="subtitle">为什么差是原分数的 <b class="hl">2 倍</b>？量一量 👇</div>
+    <div class="measure">
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+        <div class="measrow"><span class="lab" style="width:50px;text-align:left">1/n</span><div class="mbar blue" style="width:330px"></div></div>
+        <div class="measrow"><span class="lab" style="width:50px;text-align:left">1/(n+2)</span><div class="mbar orange" style="width:110px"></div></div>
+        <div class="measrow"><span class="lab" style="width:50px;text-align:left">差</span><div class="mbar gray" style="width:330px">
+          <span class="cellmark" style="left:110px"></span>
+          <span class="cellflag" style="left:140px">1</span>
+          <span class="cellmark" style="left:220px"></span>
+          <span class="cellflag" style="left:250px">2</span>
+        </div></div>
+      </div>
+      <div style="font-size:24px;font-weight:800;max-width:360px;line-height:1.6">
+        蓝棒 − 橙棒，<b>剩下的一段</b>正好被分成 <span style="color:var(--orange)">2 个原分数</span>。
+        <br>所以原分数 = 差的一半 → 乘 <b style="color:var(--orange)">½</b>。
+      </div>
     </div>
-    <div class="practice" data-page-node-id="eZakItdCPk82qZkjE62S2b"><b data-page-node-id="MfzmvXnEAnjj10HO94QcqY">练一练：</b><span class="frac" data-page-node-id="eCveEQkcYkh31t8gM2nMHY"><span class="num" data-page-node-id="FnKfEE1VLTKNuaGIBndPzl">1</span><span class="fline" data-page-node-id="YG98jAEMhiRhgxQCwLwm2Y"></span><span class="den" data-page-node-id="NPKH8xR1bimLq1H1KZligo">1×3</span></span> + <span class="frac" data-page-node-id="UzRlQY6XG4SP6vJqBiwqPQ"><span class="num" data-page-node-id="6J4En8JLPmG4kAe8xtpsUK">1</span><span class="fline" data-page-node-id="V4MB2Ms4l8kjx2GRI37JVX"></span><span class="den" data-page-node-id="3uhAFCknpnYVlPA4DOUq2p">2×4</span></span> + … + <span class="frac" data-page-node-id="sftLoyIwF6iAogQ4AA4nbF"><span class="num" data-page-node-id="fyzxFj9I8e15V8LaBACf1h">1</span><span class="fline" data-page-node-id="OBw8FKHn3YcRFaM1CuR1Ag"></span><span class="den" data-page-node-id="3oaobNVEhhbJxjtfD8UJct">20×22</span></span> = ？</div>
+    <div class="formula-card">
+      <span class="frac" style="font-size:44px"><span class="num">1</span><span class="fline"></span><span class="den">n×(n+2)</span></span>
+      <span class="op">=</span>
+      <span style="color:var(--orange)">½</span>
+      <span class="op">(</span><span class="blue" style="font-size:32px">1/n</span><span class="op">−</span><span class="orange" style="font-size:32px">1/(n+2)</span><span class="op">)</span>
+    </div>
   </div>
 
-  <div class="tip" id="tip" data-page-node-id="RnZUx0a0SvOnba2TPMvWuO"></div>
-  <div class="controls" data-page-node-id="i7uIwkKp3QRag40qRIMH1D">
-    <button id="prev" title="上一步（←）" data-page-node-id="CWreh8uLGBtJAyDr5dYA8h"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <span class="ind" id="ind" data-page-node-id="RPehdGMEy3vsTQ8lv6UHtz">1/9</span>
-    <button id="next" title="下一步（空格/→）" data-page-node-id="slPS2QKrXTN4YtLKlbjO0x"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button id="replay" title="重播本步（R）" data-page-node-id="N5VQSeVkhHyQGW9iqE4yJW"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg></button>
+  <!-- 场景 D：把 10 项全拆成棒棒 -->
+  <div class="scene" id="sceneD">
+    <div class="subtitle">现在把 <b class="hl">10 项</b>全拆开，得到棒棒 🍭</div>
+    <div class="split-grid" id="splitGrid"></div>
+    <div class="hint">10 项 → 10 根<b style="color:var(--blue)">蓝棒</b> + 10 根<b style="color:var(--orange)">橙棒</b> = <b>20 根</b></div>
   </div>
+
+  <!-- 场景 E：排队配对直方图 -->
+  <div class="scene" id="sceneE">
+    <div class="subtitle" id="eTitle">把 20 根棒棒按<b class="hl">长短</b>排队，看谁有另一半 🧩</div>
+    <div id="hist"></div>
+    <div class="hist-legend">每种长度都有一根 <b style="color:var(--blue)">蓝</b>(+) 和一根 <b style="color:var(--orange)">橙</b>(−) → 天生一对</div>
+    <button class="pill pulse" id="eCancel" hidden>开始抵消 ⚡</button>
+    <div class="result-card" id="eResult" hidden></div>
+  </div>
+
+  <!-- 场景 F：只剩四根 + 计算 -->
+  <div class="scene" id="sceneF">
+    <div class="subtitle" id="fTitle">抵消完，只剩这 <b class="hl">4</b> 根棒棒</div>
+    <div class="surv-show">
+      <div class="survcard pos"><div class="cap">还剩 <b>正的</b>（最长两根）</div><div class="card-frac" id="survPos"></div></div>
+      <div class="arrow">−</div>
+      <div class="survcard neg"><div class="cap">还剩 <b>负的</b>（最短两根）</div><div class="card-frac" id="survNeg"></div></div>
+    </div>
+    <div class="hint" id="fHint" hidden>先别急着算 👀 中间那 9 对都抵消了，只剩这 4 根「<b style="color:var(--blue)">没有另一半</b>」——最长两根(<span style="color:var(--blue)">+</span>) 和 最短两根(<span style="color:var(--orange)">−</span>)。下一步算总账 →</div>
+    <div class="calc-line" id="calcLine" hidden></div>
+  </div>
+
+  <!-- 场景 G：总结 + 变式 -->
+  <div class="scene" id="sceneG">
+    <div class="subtitle">四步口诀，记住它！</div>
+    <div class="cards">
+      <div class="card"><div class="ck">拆</div><div class="cd">每项拆成 蓝 − 橙</div></div>
+      <div class="card"><div class="ck">排</div><div class="cd">按长短排队找另一半</div></div>
+      <div class="card"><div class="ck">消</div><div class="cd">一样长的一正一负抵消</div></div>
+      <div class="card"><div class="ck">算</div><div class="cd">只剩最长跟最短，通分收尾</div></div>
+    </div>
+    <div class="practice" id="practice" hidden></div>
+  </div>
+
+  <div class="tip" id="tip"></div>
+  <div class="controls">
+    <button id="btnPrev" title="上一步（←）"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="stars" id="stars"></span>
+    <span class="ind" id="ind">1/11</span>
+    <button id="btnNext" title="下一步（空格/→）"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button id="btnReplay" title="重播本步（R）"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg></button>
+  </div>
+
 </div>
 </div>
 
 <script>
-var sceneOf=['A','A','B','C','D','D','D','D','E'];
+var sceneOf=['A','B','B','C','D','E','E','F','F','G','G'];
 var tips=[
- '观察分母规律：两个数「隔一位」相乘',
- '提问：这个分数能拆成两个分数相减吗？（停顿，让学生猜）',
- '条形图：1 和 1/3 的差，正好是两个 1/3',
- '归纳通式：间隙是 2，所以前面要乘 ½',
- '十项全部拆开：上排为正，下排为负',
- '自动演示抵消：注意是「隔两项」配对',
- '头剩 1、1/2，尾剩 −1/11、−1/12',
- '通分计算：½ × 175/132 = 175/264',
- '口诀：拆 → 消 → 算；留一道变式练习'
+ '分母的两个数总隔一位相乘：1×3、2×4、3×5……',
+ '别急，先拿前两个 1/(1×3)+1/(3×5) 试一试',
+ '每项都能拆成一蓝(+)、一橙(−)；点按钮让一样长的抵消',
+ '1/n 和 1/(n+2) 的差 = 2 个原分数，所以要乘 ½',
+ '10 项 → 20 根棒棒：10 根蓝 + 10 根橙',
+ '按长短排队：中间每种长度都有一蓝一橙',
+ '点「开始抵消」：一样长的一正一负就相消',
+ '只剩最长的两根(蓝) + 最短的两根(橙)',
+ '½ × (1 + 1/2 − 1/11 − 1/12) = 175/264',
+ '口诀：拆 → 排 → 消 → 算',
+ '变式：只取奇数项 1/(1×3)+…+1/(9×11) = 5/11'
 ];
-var cur=1, N=9;
+var cur=1, N=11;
 var ind=document.getElementById('ind'), tip=document.getElementById('tip');
-var prevB=document.getElementById('prev'), nextB=document.getElementById('next');
+var prevB=document.getElementById('btnPrev'), nextB=document.getElementById('btnNext');
+var stars=document.getElementById('stars');
+var histRows=[], warmBuilt=false, histCanceled=false;
+
+/* ---------- helpers ---------- */
+function frac(n,d){return '<span class="frac"><span class="num">'+n+'</span><span class="fline"></span><span class="den">'+d+'</span></span>';}
+var mascot=document.getElementById('mascot'), bubbleEl=document.getElementById('say');
+function say(text,ms){ bubbleEl.textContent=text; bubbleEl.classList.add('show'); clearTimeout(bubbleEl._t); if(ms) bubbleEl._t=setTimeout(function(){bubbleEl.classList.remove('show');},ms); }
+function mascotHappy(text,ms){ mascot.classList.remove('wobble','happy'); void mascot.offsetWidth; mascot.classList.add('happy'); say(text,ms||2600); }
+function mascotWobble(text,ms){ mascot.classList.remove('wobble','happy'); void mascot.offsetWidth; mascot.classList.add('wobble'); say(text,ms||2000); }
+function confetti(n){ var colors=['#60a5fa','#fb923c','#fbbf24','#34d399','#a78bfa','#f472b6']; for(var i=0;i<n;i++){ var c=document.createElement('div'); c.className='confetti'; c.style.left=(20+Math.random()*60)+'%'; c.style.top=(30+Math.random()*30)+'%'; c.style.background=colors[i%colors.length]; stage.appendChild(c); setTimeout(function(e){e.remove();},1600); setTimeout(function(e){e.remove();},1600); (function(el){setTimeout(function(){el.remove();},1600);})(c); } }
+function spark(x,y,txt){ var s=document.createElement('div'); s.className='spark'; s.textContent=txt||'⭐'; s.style.left=x+'px'; s.style.top=y+'px'; stage.appendChild(s); setTimeout(function(){s.remove();},700); }
+
+/* ---------- scene B warmup ---------- */
+function initB2(){
+  var btn=document.getElementById('bCancel'); btn.hidden=true; btn.classList.remove('pulse');
+  var res=document.getElementById('bResult'); res.hidden=true; res.innerHTML='';
+  var ms=document.querySelectorAll('.match'); ms.forEach(function(el){el.classList.remove('glow');});
+  // glow the two matching rods after a tick for s2
+  setTimeout(function(){ if(cur===2){ document.querySelectorAll('.match').forEach(function(el){el.classList.add('glow');}); } },400);
+}
+function initB3(){
+  var btn=document.getElementById('bCancel'); btn.hidden=false; btn.classList.add('pulse');
+  document.querySelectorAll('.match').forEach(function(el){el.classList.add('glow');});
+}
+function warmCancel(){
+  var btn=document.getElementById('bCancel'); btn.disabled=true; btn.classList.remove('pulse');
+  var ms=document.querySelectorAll('.match'); var done=0;
+  ms.forEach(function(el){ el.classList.remove('glow'); el.style.width='0px'; el.style.opacity='0'; });
+  // spark in center of warm
+  var warm=document.getElementById('warm'); var r=warm.getBoundingClientRect(), sr=stage.getBoundingClientRect();
+  spark(r.left-sr.left+r.width/2, r.top-sr.top+r.height/2, '💥');
+  setTimeout(function(){
+    btn.hidden=true;
+    mascotHappy('中间那根被抵消啦！只剩最长和最短 🎉');
+    var res=document.getElementById('bResult'); res.hidden=false; res.innerHTML='中间 1/3 那根被抵消了！只剩 蓝1 和 橙1/5 → ½ × (1 − 1/5) = <span class="ok">2/5</span>';
+    confetti(16);
+  },700);
+}
+
+/* ---------- scene D split ---------- */
+function buildSplit(){
+  var host=document.getElementById('splitGrid'); host.innerHTML='';
+  var base=240;
+  for(var n=1;n<=10;n++){
+    var row=document.createElement('div'); row.className='srow';
+    var idx=document.createElement('div'); idx.className='sidx'; idx.textContent='n='+n;
+    var f=document.createElement('div'); f.className='sfrac'; f.innerHTML=frac(1,n+'×'+(n+2));
+    var plus=document.createElement('div'); plus.className='sar'; plus.textContent='+'; plus.style.color='var(--blue)';
+    var b=document.createElement('div'); b.className='sbar blue'; b.style.width=(base/n)+'px';
+    var minus=document.createElement('div'); minus.className='sar'; minus.textContent='−'; minus.style.color='var(--orange)';
+    var o=document.createElement('div'); o.className='sbar orange'; o.style.width=(base/(n+2))+'px';
+    row.appendChild(idx); row.appendChild(f); row.appendChild(plus); row.appendChild(b);
+    row.appendChild(minus); row.appendChild(o);
+    host.appendChild(row);
+  }
+}
+
+/* ---------- scene E histogram ---------- */
+var lenVals=[1,1/2,1/3,1/4,1/5,1/6,1/7,1/8,1/9,1/10,1/11,1/12];
+var lenLabels=['1','1/2','1/3','1/4','1/5','1/6','1/7','1/8','1/9','1/10','1/11','1/12'];
+function buildHist(){
+  var host=document.getElementById('hist'); host.innerHTML=''; histRows=[]; histCanceled=false;
+  var base=400;
+  lenVals.forEach(function(v,i){
+    var w=Math.round(v*base);
+    var isBlue=(i<=9), isOrange=(i>=2);
+    var row=document.createElement('div'); row.className='hist-row'+(isBlue&&isOrange?' pair':'');
+    var label=document.createElement('div'); label.className='label'; label.textContent=lenLabels[i];
+    var track=document.createElement('div'); track.className='track';
+    var blue=document.createElement('div'); blue.className='bar blue'; blue.style.width=w+'px'; if(!isBlue) blue.style.visibility='hidden';
+    var sig=document.createElement('div'); sig.className='sig'; sig.textContent = isBlue&&isOrange ? '+ −' : (isBlue?'+':'−');
+    var orange=document.createElement('div'); orange.className='bar orange'; orange.style.width=w+'px'; if(!isOrange) orange.style.visibility='hidden';
+    track.appendChild(blue); track.appendChild(sig); track.appendChild(orange);
+    var state=document.createElement('div'); state.className='state';
+    state.textContent = isBlue&&isOrange?'？':(isBlue?'只正':'只负');
+    row.appendChild(label); row.appendChild(track); row.appendChild(state);
+    host.appendChild(row);
+    histRows.push({row:row,track:track,blue:blue,orange:orange,state:state,isBlue:isBlue,isOrange:isOrange,done:false});
+  });
+}
+function revealCancel(){
+  var btn=document.getElementById('eCancel'); btn.hidden=false; btn.classList.add('pulse');
+  document.getElementById('eResult').hidden=true;
+  // clickable pairs
+  histRows.forEach(function(r,i){ if(r.isBlue&&r.isOrange&&!r.done){ r.row.style.cursor='pointer'; r.row.onclick=function(){ cancelRow(i); }; } });
+}
+function cancelRow(i){
+  var r=histRows[i]; if(r.done) return; r.done=true;
+  var tw=r.track.clientWidth, bw=r.blue.offsetWidth, meet=(tw-bw)/2;
+  r.blue.style.transform='translateX('+meet+'px)'; r.orange.style.transform='translateX(-'+meet+'px)';
+  setTimeout(function(){ r.blue.style.opacity='0'; r.orange.style.opacity='0'; r.state.textContent='抵消 ✓'; r.state.classList.add('cancel'); },450);
+  setTimeout(checkAllCanceled,950);
+}
+function cancelAll(){
+  var ids=[2,3,4,5,6,7,8,9], k=0;
+  var btn=document.getElementById('eCancel'); btn.disabled=true;
+  function step(){ if(k>=ids.length){ return; } cancelRow(ids[k]); k++; setTimeout(step,600); }
+  step();
+}
+function checkAllCanceled(){
+  var pairs=histRows.filter(function(r){return r.isBlue&&r.isOrange;});
+  var allDone=pairs.every(function(r){return r.done;});
+  if(!allDone) return;
+  var btn=document.getElementById('eCancel'); btn.disabled=true; btn.classList.remove('pulse'); btn.hidden=true;
+  // survivors
+  [0,1,10,11].forEach(function(i){ var r=histRows[i]; r.state.textContent='剩 ✓'; r.state.classList.add('surv'); r.row.classList.add('survive'); });
+  var res=document.getElementById('eResult'); res.hidden=false; res.innerHTML='中间 <b style="color:var(--ok)">8 对</b> 一样长的都抵消了！只剩 <b style="color:var(--blue)">最长两根(+)</b> 和 <b style="color:var(--orange)">最短两根(−)</b>';
+  mascotHappy('中间全抵消啦！🎉'); confetti(20);
+  var warnEl=document.querySelector('#sceneE .warm-link');
+}
+
+/* ---------- scene F ---------- */
+function initF(){
+  var pos=document.getElementById('survPos'), neg=document.getElementById('survNeg');
+  pos.innerHTML= frac(1,'1') +'<span class="c-op">+</span>'+ frac(1,'2');
+  neg.innerHTML= '<span class="c-op">−</span>'+frac(1,'11') +'<span class="c-op">−</span>'+ frac(1,'12');
+  var calc=document.getElementById('calcLine'); calc.hidden = (cur!==9);
+  document.getElementById('fHint').hidden = (cur!==8);
+  if(cur===9){
+    calc.innerHTML='½ × ( 1 + 1/2 − 1/11 − 1/12 ) = ½ × '+frac(175,'132')+' = <span class="hl">175/264</span>';
+    mascotHappy('算出来啦！🎉'); confetti(18);
+  }
+}
+
+/* ---------- scene G practice ---------- */
+function initG(){
+  if(cur!==11){ return; }
+  var p=document.getElementById('practice');
+  p.hidden=false;
+  p.innerHTML='变式：'+frac(1,'1×3')+' + '+frac(1,'3×5')+' + … + '+frac(1,'9×11')+' = <button class="pill" style="font-size:15px;padding:8px 18px;margin-left:8px" onclick="revealPractice()">看答案</button>';
+}
+function revealPractice(){
+  var p=document.getElementById('practice');
+  p.innerHTML='变式：'+frac(1,'1×3')+' + '+frac(1,'3×5')+' + … + '+frac(1,'9×11')+' = <span class="ok" style="color:var(--ok)">5/11</span>　（只算 1、3、5、7、9，中间一样抵消）';
+  mascotHappy('对啦，方法一样！👍'); confetti(14);
+}
+
+/* ---------- render ---------- */
 function render(){
-  var b=document.body;
-  for(var i=1;i<=N;i++){ b.classList.toggle('s'+i, i<=cur); }
+  for(var i=1;i<=N;i++){ document.body.classList.toggle('s'+i, i<=cur); }
   var scenes=document.querySelectorAll('.scene');
   for(var j=0;j<scenes.length;j++){ scenes[j].classList.remove('active'); }
   document.getElementById('scene'+sceneOf[cur-1]).classList.add('active');
   ind.textContent=cur+'/'+N;
   tip.textContent=tips[cur-1];
   prevB.disabled=(cur===1); nextB.disabled=(cur===N);
+  // star progress
+  var html=''; for(var s=1;s<=N;s++){ html+='<span class="'+(s<=cur?'on':'')+'"></span>'; } stars.innerHTML=html;
+  // per-step init
+  if(cur===2){ initB2(); }
+  if(cur===3){ initB3(); }
+  if(cur===5){ buildSplit(); }
+  if(cur===6){ buildHist(); }
+  if(cur===7){ revealCancel(); }
+  if(cur===8||cur===9){ initF(); }
+  if(cur===11){ initG(); }
 }
 function next(){ if(cur<N){cur++;render();} }
 function prev(){ if(cur>1){cur--;render();} }
-function replay(){
-  var c='s'+cur, b=document.body;
-  b.classList.remove(c); void b.offsetWidth; b.classList.add(c);
-}
+function replay(){ var c='s'+cur; document.body.classList.remove(c); void document.body.offsetWidth; document.body.classList.add(c); }
+
+/* ---------- wireup ---------- */
+document.getElementById('bCancel').onclick=function(){ warmCancel(); };
+document.getElementById('eCancel').onclick=function(){ cancelAll(); };
 prevB.onclick=prev; nextB.onclick=next;
-document.getElementById('replay').onclick=replay;
+document.getElementById('btnReplay').onclick=replay;
 document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}
   else if(e.key==='ArrowLeft'){prev();}
@@ -347,6 +539,7 @@ function fit(){
   document.getElementById('stage').style.transform='scale('+s+')';
 }
 window.addEventListener('resize',fit);
+var stage=document.getElementById('stage');
 fit(); render();
 </script>
 </body>
