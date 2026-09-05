@@ -58,9 +58,12 @@ body.s2 #sceneA .term.first{opacity:1}
 body.s2 #sceneA .term.first .ti{transform:scale(1.65)}
 
 /* ========== 场景 B：条形图直觉 ========== */
-#sceneB{align-items:center;gap:4px}
-#sceneB .bartitle{font-size:30px;margin:0 0 10px}
-#sceneB .bartitle .frac{font-size:34px}
+#sceneB{gap:30px;align-items:center}
+.erow{display:flex;align-items:center;justify-content:center;gap:80px}
+.ecol{display:flex;flex-direction:column;gap:10px}
+.ecol.eright{align-items:center}
+#sceneB .bartitle{font-size:26px;margin:0}
+#sceneB .bartitle .frac{font-size:30px}
 .brow{display:flex;align-items:center;gap:16px;margin:14px 0}
 .blabel{width:80px;text-align:right;font-size:26px;color:var(--sub)}
 .bbox{position:relative;width:480px;height:48px}
@@ -72,13 +75,13 @@ body.s2 #sceneA .term.first .ti{transform:scale(1.65)}
   border:2px dashed var(--gold);opacity:0}
 .diffnote{margin:8px 0 2px;font-size:28px;opacity:0}
 .diffnote b{color:var(--gold)}
-.halfrow{display:flex;align-items:center;gap:14px;margin:12px 0 4px}
-.bhalf{width:158px;height:48px;border-radius:7px;background:#fcd34d;border:2px solid var(--gold);
+.halfrow{display:flex;align-items:center;gap:14px}
+.bhalf{width:158px;height:52px;border-radius:7px;background:#fcd34d;border:2px solid var(--gold);
   display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#92400e;
   transform-origin:left center;opacity:0}
-.halfeq{margin:6px 0 0;font-size:26px;color:var(--sub);opacity:0}
+.halfeq{font-size:24px;color:var(--sub);opacity:0;text-align:center;max-width:400px}
 .halfeq b{color:var(--gold)}
-.beq{margin-top:18px;text-align:center;font-size:42px;opacity:0}
+.beq{text-align:center;font-size:40px;opacity:0}
 .beq .half2{color:var(--gold);font-weight:700}
 body.s3 .bfull{animation:growX .55s both .1s}
 body.s3 .brow .blabel{animation:fadeIn .5s both .1s}
@@ -215,6 +218,8 @@ body.notips .tip{display:none}
 
   <!-- 场景 B -->
   <div class="scene" id="sceneB" data-page-node-id="DfU41XAmZKd1cXCvDAZzGb">
+   <div class="erow">
+    <div class="ecol eleft">
     <div class="bartitle" data-page-node-id="Kdi7KXkjw0BkABg2XSCsJg">以 <span class="frac" data-page-node-id="tD5qYVbdRNZ3ey5HJ5gW9P"><span class="num" data-page-node-id="WEvzzYjoenFgD6XucCeIrS">1</span><span class="fline" data-page-node-id="ymKnD2WKV8b8EEs5LACnEb"></span><span class="den" data-page-node-id="qV5oVFvQMdcEJ4j9BqNxxj">1×3</span></span> 为例：画两根条形看一看</div>
     <div class="brow" data-page-node-id="Ec05iYWYX26YY5aewtSvwI">
       <span class="blabel" data-page-node-id="T7j3RIdOsX9IPPLaFhKjTk">1</span>
@@ -225,11 +230,15 @@ body.notips .tip{display:none}
       <div class="bbox" data-page-node-id="P9oDHKDBeAvD0VSMEBQs0G"><div class="bbar bthird" data-page-node-id="aoTkRD5QClcJ3VUS2Z7Fb7"></div></div>
     </div>
     <div class="diffnote" data-page-node-id="o3T6aidhaoX9VZtQKFPDSf">差 = 1 − <span class="frac" data-page-node-id="tt7MHO0PSnCo3SF6W0QdJk"><span class="num" data-page-node-id="qLHzCwnKbILHIPb1fcDMRV">1</span><span class="fline" data-page-node-id="WBO8oujtakQvb6raH1bA3F"></span><span class="den" data-page-node-id="OBemUjOBG8L4WHHwRxJi4H">3</span></span> = <b data-page-node-id="kf1Q33xkhiBYh0CugSuaF9"><span class="frac" data-page-node-id="g4OtDXBcMUF1XudXtzpO2w"><span class="num" data-page-node-id="GYMxVHgWvT1zqxJyuR61dQ">2</span><span class="fline" data-page-node-id="8M2CGciPfMSJ4TJ1DpdXwU"></span><span class="den" data-page-node-id="WdqkBCdfSN8ktuKlRtN2kE">3</span></span></b></div>
+    </div>
+    <div class="ecol eright">
     <div class="halfrow" data-page-node-id="wFAye4ItzTMx5feoN7ZGnG">
       <div class="bhalf h1" data-page-node-id="Fn3X1vEfxVTv3ky2pDyDrH"><span class="frac" data-page-node-id="GI1PFgwOk50a3Fax7jTEbf"><span class="num" data-page-node-id="82FsHEzU0ZaLWpR3tH2vII">1</span><span class="fline" data-page-node-id="jJ1nknAINCyNK3N9gEE59g"></span><span class="den" data-page-node-id="4G1FwSXqaja2X37EhxQmz3">3</span></span></div>
       <div class="bhalf h2" data-page-node-id="BOd8LXzR3BghxGAnRhYjd3"><span class="frac" data-page-node-id="vRKJDm48VAKAGkcIYC2rFx"><span class="num" data-page-node-id="wrAFHLIbT0FP3MBIFBo0DF">1</span><span class="fline" data-page-node-id="jtJXNDjjHt4vUQEMl4lWyP"></span><span class="den" data-page-node-id="XSDsCJvAPAQQJRCU3T1Qqg">3</span></span></div>
     </div>
-    <div class="halfeq" data-page-node-id="cAizOl3HDHPDB5WuRCFNy3">差正好是 <b data-page-node-id="KSvG3sMSjINuzAKoJHptK8">两个</b> <span class="frac" data-page-node-id="5cEOIEAdKfMeBpFaF2I8aM"><span class="num" data-page-node-id="rVoV4BvCzt0HFKGkwuFhSr">1</span><span class="fline" data-page-node-id="5imvmiyV90bZSezrzNVQ7Q"></span><span class="den" data-page-node-id="d5CxCFdLEyICXQ243i08jL">3</span></span>　→　差的一半就是原分数</div>
+    <div class="halfeq" data-page-node-id="cAizOl3HDHPDB5WuRCFNy3">差正好是 <b data-page-node-id="KSvG3sMSjINuzAKoJHptK8">两个</b> <span class="frac" data-page-node-id="5cEOIEAdKfMeBpFaF2I8aM"><span class="num" data-page-node-id="rVoV4BvCzt0HFKGkwuFhSr">1</span><span class="fline" data-page-node-id="5imvmiyV90bZSezrzNVQ7Q"></span><span class="den" data-page-node-id="d5CxCFdLEyICXQ243i08jL">3</span></span><br>→　差的一半就是原分数</div>
+    </div>
+   </div>
     <div class="beq" data-page-node-id="Em1Hzo8sveDgsxoaRIs0RZ"><span class="frac" data-page-node-id="BcBkCdL47R2RGaeSGB75Ax"><span class="num" data-page-node-id="uX09lYhmHZfd3XXI7lMppV">1</span><span class="fline" data-page-node-id="oTTHPYWcxn5dZKbbGLHXO6"></span><span class="den" data-page-node-id="uQEhMHlDvSIhLeMumP3OIq">1×3</span></span> = <span class="half2" data-page-node-id="zB3Itx80PtOOWXSqdTohQg"><span class="frac" data-page-node-id="utDzH0zVA7GOq4phzjH7zQ"><span class="num" data-page-node-id="0ShmGkE7qsUvYuIi7pYZ9e">1</span><span class="fline" data-page-node-id="Wv53Mtxo8nLjaYiMToHdjI"></span><span class="den" data-page-node-id="6nRuN92hGEIKjSwcZ9HniS">2</span></span></span> × ( 1 − <span class="frac" data-page-node-id="KSZOqC4FCAuyWQjeF3OaVf"><span class="num" data-page-node-id="ODRmzIvEthgT2oza4h10xn">1</span><span class="fline" data-page-node-id="PhsCJ8T7rWeQVXwsvfOP9R"></span><span class="den" data-page-node-id="g9cfmmJHedwSa4JBMUzaGo">3</span></span> )</div>
   </div>
 

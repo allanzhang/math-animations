@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="JsisKWcMyIr4VbqxllgyyL">
+<head data-page-node-id="3obWv0pHiEYdXXTvdQvp5B">
+<meta charset="UTF-8" data-page-node-id="DULOOUAdknA7YHSq08YF0A">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="mewdRUMt5prRdbI1V7w6bq">
 <title>裂项相消进阶 · 分母是累加和</title>
 <style>
 :root{
@@ -97,8 +97,11 @@ body.s4 #sceneD .term,body.s4 #sceneD .op{animation:tIn .5s both;animation-delay
 body.s4 .annD{animation:fadeUp .6s both 1.6s}
 
 /* ========== 场景 E：条形图二次裂项直觉 ========== */
-#sceneE{align-items:center;gap:10px}
-#sceneE .bartitle{font-size:30px;margin-bottom:8px}
+#sceneE{gap:30px;align-items:center}
+.erow{display:flex;align-items:center;justify-content:center;gap:80px}
+.ecol{display:flex;flex-direction:column;gap:10px}
+.ecol.eright{align-items:center}
+#sceneE .bartitle{font-size:26px;margin:0}
 #sceneE .bartitle .frac{font-size:32px}
 .brow{display:flex;align-items:center;gap:16px;margin:8px 0}
 .blabel{width:110px;text-align:right;font-size:24px;color:var(--sub)}
@@ -112,14 +115,14 @@ body.s4 .annD{animation:fadeUp .6s both 1.6s}
   border:2px dashed var(--gold);opacity:0}
 .diffnote{font-size:27px;opacity:0}
 .diffnote b{color:var(--gold)}
-.halfrow{display:flex;align-items:center;gap:14px;margin-top:6px}
-.bhalf{width:80px;height:46px;border-radius:7px;background:#fcd34d;border:2px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#92400e;
+.halfrow{display:flex;align-items:center;gap:16px}
+.bhalf{width:96px;height:52px;border-radius:7px;background:#fcd34d;border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#92400e;
   transform-origin:left center;opacity:0}
-.bhalf .frac{font-size:22px}
-.halfeq{font-size:25px;color:var(--sub);opacity:0}
+.bhalf .frac{font-size:24px}
+.halfeq{font-size:24px;color:var(--sub);opacity:0;text-align:center;max-width:400px}
 .halfeq b{color:var(--gold)}
-.beq2{font-size:38px;opacity:0;margin-top:8px}
+.beq2{font-size:38px;opacity:0;text-align:center}
 .beq2 .half2{color:var(--gold);font-weight:700}
 body.s5 .bfull{animation:growX .55s both .1s}
 body.s5 .brow .blabel{animation:fadeIn .5s both .1s}
@@ -234,162 +237,168 @@ body.notips .tip{display:none}
 .controls .ind{font-size:14px;color:var(--sub);min-width:38px;text-align:center}
 </style>
 </head>
-<body>
-<div id="viewport">
-<div id="stage">
-  <div class="hd">分数巧算 · <b>裂项相消进阶</b>（分母是累加和）</div>
+<body data-page-node-id="BjIHjsRqEJZDC91im6qLsE">
+<div id="viewport" data-page-node-id="x6gMXfvKxhUUAO7PcjkAvv">
+<div id="stage" data-page-node-id="c5RHjfPR9YUDNZwc4K8ecC">
+  <div class="hd" data-page-node-id="u5WvGc7lcUr3Gf33YgbxNU">分数巧算 · <b data-page-node-id="QF6oJOk4qeQaeUV63Kakyq">裂项相消进阶</b>（分母是累加和）</div>
 
   <!-- 场景 A：原式亮相 -->
-  <div class="scene" id="sceneA">
-    <div class="expr">
-      <span class="term" style="--i:0"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den"><span class="densum">1×2</span></span></span></span>
-      <span class="op" style="--i:1">+</span>
-      <span class="term" style="--i:2"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den"><span class="densum">1×2+2×3</span></span></span></span>
-      <span class="op" style="--i:3">+</span>
-      <span class="term" style="--i:4"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den"><span class="densum">1×2+2×3+3×4</span></span></span></span>
-      <span class="op" style="--i:5">+</span>
-      <span class="op" style="--i:6">⋯</span>
-      <span class="op" style="--i:7">+</span>
-      <span class="term" style="--i:8"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den"><span class="densum">1×2+2×3+⋯+10×11</span></span></span></span>
+  <div class="scene" id="sceneA" data-page-node-id="nh63uAwXEMijxAApGSGtce">
+    <div class="expr" data-page-node-id="Ees5fl405wT1gGILvNzozH">
+      <span class="term" style="--i:0" data-page-node-id="jHKkEVnCq8qLmHgIOB7T1B"><span class="frac" data-page-node-id="EOE7L5pXm6426j3Tlzhyyv"><span class="num" data-page-node-id="xtNF7wdYu07651uww8Ja6k">1</span><span class="fline" data-page-node-id="w7qsq51jOG9pKaQ2oE9ujw"></span><span class="den" data-page-node-id="9D7cimFIbddBjn75ERpHbd"><span class="densum" data-page-node-id="xbaf2iBts0eYHif1E26U9B">1×2</span></span></span></span>
+      <span class="op" style="--i:1" data-page-node-id="6z3Gu8Wfu4MfFFXltFdcqv">+</span>
+      <span class="term" style="--i:2" data-page-node-id="feCLOfdbwqlCyBGT1GFFAp"><span class="frac" data-page-node-id="HGrVDQqHNnD6HI2wYvJzRV"><span class="num" data-page-node-id="dDfCBByHl7Laen1D7YvDt7">1</span><span class="fline" data-page-node-id="pwapLGJEOuPQSvjT37BLqO"></span><span class="den" data-page-node-id="A3KOZRLRXCS5QY2v6DzlRB"><span class="densum" data-page-node-id="vVKEOA4tFvxx4YgaplMKiX">1×2+2×3</span></span></span></span>
+      <span class="op" style="--i:3" data-page-node-id="A0foCCVBpaiXMeoxXIX6iP">+</span>
+      <span class="term" style="--i:4" data-page-node-id="ReidJzJjNcOqJEaMP6UH70"><span class="frac" data-page-node-id="8B85iEbJ78alqEqYRrGJrt"><span class="num" data-page-node-id="n6jHzPongKGgmJRtAW8IDW">1</span><span class="fline" data-page-node-id="R8UEyD3B9du0p5DEHuVt3q"></span><span class="den" data-page-node-id="ylJASsAEqNrpjOO1m1lfWQ"><span class="densum" data-page-node-id="QzzG09CkZGmuFj0YIkgfMR">1×2+2×3+3×4</span></span></span></span>
+      <span class="op" style="--i:5" data-page-node-id="6PlBMOlFAwVej9MLd7nVdq">+</span>
+      <span class="op" style="--i:6" data-page-node-id="C12yyM3hiKu3B8pbwmSvBr">⋯</span>
+      <span class="op" style="--i:7" data-page-node-id="FnT8HMJ5CNRs6FsEMMOboj">+</span>
+      <span class="term" style="--i:8" data-page-node-id="78AFnwClzxdbGfa2vOM9s5"><span class="frac" data-page-node-id="JDC5quqkyDE6WqYgstR1Ug"><span class="num" data-page-node-id="eSFm0hWgEXrTuePUZ9QmTO">1</span><span class="fline" data-page-node-id="YzukavX7T2aKCpKkpPNZGr"></span><span class="den" data-page-node-id="uPNUmutDAJ0hUMbe9kw1N4"><span class="densum" data-page-node-id="cO62MWTntqZMfNTTjXff1b">1×2+2×3+⋯+10×11</span></span></span></span>
     </div>
-    <div class="anns">
-      <div class="ann annA">观察分母：越来越长的「累加和」　1×2　→　1×2+2×3　→　1×2+2×3+3×4　……</div>
+    <div class="anns" data-page-node-id="q1aC7z63UrIT4sXpTMshub">
+      <div class="ann annA" data-page-node-id="JFJJOkGcHON2LTCXQGH9iy">观察分母：越来越长的「累加和」　1×2　→　1×2+2×3　→　1×2+2×3+3×4　……</div>
     </div>
   </div>
 
   <!-- 场景 B：方块楼梯 -->
-  <div class="scene" id="sceneB">
-    <div class="bartitle">先研究分母：以 1×2+2×3+3×4 为例，用小方块数一数</div>
-    <div class="stairs">
-      <div class="srow g1">
-        <span class="slabel">1×2</span>
-        <div class="sqs" style="grid-template-columns:repeat(2,28px)">
-          <div class="sq" style="--d:0"></div><div class="sq" style="--d:1"></div>
+  <div class="scene" id="sceneB" data-page-node-id="rCENRAGhkPrGZkScNk7te0">
+    <div class="bartitle" data-page-node-id="SfamYQMqZC5fgCEAcLGsBh">先研究分母：以 1×2+2×3+3×4 为例，用小方块数一数</div>
+    <div class="stairs" data-page-node-id="gZJHdsnF11hWCZFwg5sjab">
+      <div class="srow g1" data-page-node-id="udftoOVcDtNrr7HeU3TNIj">
+        <span class="slabel" data-page-node-id="96B9HBrpvWfNVY3Ar8UGmG">1×2</span>
+        <div class="sqs" style="grid-template-columns:repeat(2,28px)" data-page-node-id="KLURmAgVu6eiaPppoi9abd">
+          <div class="sq" style="--d:0" data-page-node-id="QhmZX7EPQC3C6yjfpibYCD"></div><div class="sq" style="--d:1" data-page-node-id="2jgpv8trMHCFarzsBDzFYS"></div>
         </div>
       </div>
-      <div class="srow g2">
-        <span class="slabel">2×3</span>
-        <div class="sqs" style="grid-template-columns:repeat(3,28px)">
-          <div class="sq" style="--d:2"></div><div class="sq" style="--d:3"></div><div class="sq" style="--d:4"></div>
-          <div class="sq" style="--d:5"></div><div class="sq" style="--d:6"></div><div class="sq" style="--d:7"></div>
+      <div class="srow g2" data-page-node-id="GrY580tGqoDaVJhxpFpv2A">
+        <span class="slabel" data-page-node-id="7aFSXlyVv15TUfMJyRClxD">2×3</span>
+        <div class="sqs" style="grid-template-columns:repeat(3,28px)" data-page-node-id="VXquI2NoNsvD94RxjdX7BR">
+          <div class="sq" style="--d:2" data-page-node-id="aw47zfzTMqvc4BKOdW53wW"></div><div class="sq" style="--d:3" data-page-node-id="zG8teNCtfep4F1GHHqPHph"></div><div class="sq" style="--d:4" data-page-node-id="jwFUcGpv4faDcCIrH6lgOK"></div>
+          <div class="sq" style="--d:5" data-page-node-id="Ysnpc4Z9nZ5eBeCAix3Dfi"></div><div class="sq" style="--d:6" data-page-node-id="Y9WWtxjq9ZKl3JkG1Y1VFe"></div><div class="sq" style="--d:7" data-page-node-id="FwTCcslRNNKLHJB0jEgLnd"></div>
         </div>
       </div>
-      <div class="srow g3">
-        <span class="slabel">3×4</span>
-        <div class="sqs" style="grid-template-columns:repeat(4,28px)">
-          <div class="sq" style="--d:8"></div><div class="sq" style="--d:9"></div><div class="sq" style="--d:10"></div><div class="sq" style="--d:11"></div>
-          <div class="sq" style="--d:12"></div><div class="sq" style="--d:13"></div><div class="sq" style="--d:14"></div><div class="sq" style="--d:15"></div>
-          <div class="sq" style="--d:16"></div><div class="sq" style="--d:17"></div><div class="sq" style="--d:18"></div><div class="sq" style="--d:19"></div>
+      <div class="srow g3" data-page-node-id="6OhDAFr421exaqDZgqPnoA">
+        <span class="slabel" data-page-node-id="8FZYOSdZg1FuHGTk93rzBO">3×4</span>
+        <div class="sqs" style="grid-template-columns:repeat(4,28px)" data-page-node-id="lDWQxsuzEqDnohNEcjB2iD">
+          <div class="sq" style="--d:8" data-page-node-id="VW8La2E5pV7i2Q1DN4aKhE"></div><div class="sq" style="--d:9" data-page-node-id="xRF6Y6V1b9fxiTfeS8G1xV"></div><div class="sq" style="--d:10" data-page-node-id="aNU1kT3B669zYHyE3gBEoi"></div><div class="sq" style="--d:11" data-page-node-id="z91NvHlM2HhYII2JFvCZGC"></div>
+          <div class="sq" style="--d:12" data-page-node-id="4DCNDqzfCoDNX7lKJ5OEmU"></div><div class="sq" style="--d:13" data-page-node-id="lQjvEBxxDPfnRN6APGvXWc"></div><div class="sq" style="--d:14" data-page-node-id="pFDAaZeGzbjcJTIvjroSMS"></div><div class="sq" style="--d:15" data-page-node-id="kmabpzPSLTpclgLfEx6GvE"></div>
+          <div class="sq" style="--d:16" data-page-node-id="EeX6VvLtrztJwLUMs8Yhq7"></div><div class="sq" style="--d:17" data-page-node-id="zoz7kv8QiX2M5837YHfqIN"></div><div class="sq" style="--d:18" data-page-node-id="57epXvWFL2y3KNC6Nf1ODB"></div><div class="sq" style="--d:19" data-page-node-id="QpEbB56QTcZDkvE4rbv0EA"></div>
         </div>
       </div>
     </div>
-    <div class="bsum">一共 <b>20</b> 个小方格</div>
-    <div class="beq">1×2 + 2×3 + 3×4 = 20</div>
+    <div class="bsum" data-page-node-id="BrIf9Eo3Kzp0uxkP4vewEr">一共 <b data-page-node-id="wxT8g7VYDXXBN1wzF89bGp">20</b> 个小方格</div>
+    <div class="beq" data-page-node-id="qSvHAKjmBF6qUg3Fs0v7eK">1×2 + 2×3 + 3×4 = 20</div>
   </div>
 
   <!-- 场景 C：找规律归纳 -->
-  <div class="scene" id="sceneC">
-    <div class="crow" style="--i:0"><span class="cl">加到 1×2：和 = 2</span><span class="cr"><b>1×2×3</b> ÷ 3 = 2</span></div>
-    <div class="crow" style="--i:1"><span class="cl">加到 2×3：和 = 8</span><span class="cr"><b>2×3×4</b> ÷ 3 = 8</span></div>
-    <div class="crow" style="--i:2"><span class="cl">加到 3×4：和 = 20</span><span class="cr"><b>3×4×5</b> ÷ 3 = 20</span></div>
-    <div class="carrow">↓　规律：连续三个数相乘，再除以 3</div>
-    <div class="cgen">1×2 + 2×3 + ⋯ + <span class="vn">k</span>×(<span class="vn">k</span>+1) = <span class="frac"><span class="num"><span class="vn">k</span>×(<span class="vn">k</span>+1)×(<span class="vn">k</span>+2)</span><span class="fline"></span><span class="den">3</span></span></div>
-    <div class="cnote">小技巧：三份同样的「方块楼梯」，可以拼成一个长方体</div>
+  <div class="scene" id="sceneC" data-page-node-id="vUSJtBtETxgsa48rwENilH">
+    <div class="crow" style="--i:0" data-page-node-id="AYUTpCZgLE5smCa0Fpit2D"><span class="cl" data-page-node-id="9jptkryvk1mDxa7lCw2iRM">加到 1×2：和 = 2</span><span class="cr" data-page-node-id="4HlLzsxg8Evsve9CngeBik"><b data-page-node-id="5pKiWXwwAIMReal1kfNHGS">1×2×3</b> ÷ 3 = 2</span></div>
+    <div class="crow" style="--i:1" data-page-node-id="WVUSwjh8bms0ETCW8ZuISZ"><span class="cl" data-page-node-id="TRfsZFX5HASISYF5N7gppV">加到 2×3：和 = 8</span><span class="cr" data-page-node-id="PCuYlxsfOGxQ4VbImLNsBK"><b data-page-node-id="h4YR4hN2BI18tJYwlz8fIi">2×3×4</b> ÷ 3 = 8</span></div>
+    <div class="crow" style="--i:2" data-page-node-id="QTCxgiRQBuzrakRWlWfOYW"><span class="cl" data-page-node-id="KCVbrTupjHnikfVX6lC9iu">加到 3×4：和 = 20</span><span class="cr" data-page-node-id="ugp6C40F1shiYsccJARIQD"><b data-page-node-id="OpXHECvywFnhdC4YBA6UZQ">3×4×5</b> ÷ 3 = 20</span></div>
+    <div class="carrow" data-page-node-id="ltZDH4rg56DmrA5SgtU84q">↓　规律：连续三个数相乘，再除以 3</div>
+    <div class="cgen" data-page-node-id="ORw8pSYAS56duUQGUC08Do">1×2 + 2×3 + ⋯ + <span class="vn" data-page-node-id="GP1zAHc2I8gcr9FIowHLH9">k</span>×(<span class="vn" data-page-node-id="iFEQ2ohVLWb5Vy5B7qjjGG">k</span>+1) = <span class="frac" data-page-node-id="9lmdoOVZFBa2M3egBXSpXr"><span class="num" data-page-node-id="U18Be6ZeoEuW4HG6jHwHj2"><span class="vn" data-page-node-id="UD60NbwLziglw8QjxRE3I4">k</span>×(<span class="vn" data-page-node-id="Kuvq2Z3xPpl515BgfRhGG1">k</span>+1)×(<span class="vn" data-page-node-id="DuLcqVEZHmsqBpfIvRn5tn">k</span>+2)</span><span class="fline" data-page-node-id="iKGvgwgYuWjZwMC78cV9sw"></span><span class="den" data-page-node-id="dzjX25nyHCoQrxOqjPLhZ8">3</span></span></div>
+    <div class="cnote" data-page-node-id="NHZ9q5vYvM743lOkrwPZX0">小技巧：三份同样的「方块楼梯」，可以拼成一个长方体</div>
   </div>
 
   <!-- 场景 D：原式变身 -->
-  <div class="scene" id="sceneD">
-    <div class="expr">
-      <span class="term" style="--i:0"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den"><span class="f1">1</span>×<span class="f2">2</span>×<span class="f3">3</span></span></span></span>
-      <span class="op" style="--i:1">+</span>
-      <span class="term" style="--i:2"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den"><span class="f1">2</span>×<span class="f2">3</span>×<span class="f3">4</span></span></span></span>
-      <span class="op" style="--i:3">+</span>
-      <span class="term" style="--i:4"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den"><span class="f1">3</span>×<span class="f2">4</span>×<span class="f3">5</span></span></span></span>
-      <span class="op" style="--i:5">+</span>
-      <span class="op" style="--i:6">⋯</span>
-      <span class="op" style="--i:7">+</span>
-      <span class="term" style="--i:8"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den"><span class="f1">10</span>×<span class="f2">11</span>×<span class="f3">12</span></span></span></span>
+  <div class="scene" id="sceneD" data-page-node-id="uZGIJQWUSG2nLgGFRIz9Tj">
+    <div class="expr" data-page-node-id="DhwtWYhfGsBbL8hbeeljKR">
+      <span class="term" style="--i:0" data-page-node-id="wuUkACJrXt4gDJw1m56PeQ"><span class="frac" data-page-node-id="XGHTGUtkpY4U1RKm7CWDKr"><span class="num" data-page-node-id="i4cn61X2njid3vdSkdDWSw">3</span><span class="fline" data-page-node-id="IHcCRpy7sFwLuzwBI6K4A2"></span><span class="den" data-page-node-id="O8pBQLfojlNYFQy46RMhX4"><span class="f1" data-page-node-id="E5yFKzC2LuuXdge7HvESjm">1</span>×<span class="f2" data-page-node-id="iZ6MKMFodZQmLnA0MNQchQ">2</span>×<span class="f3" data-page-node-id="aMt0PfEPQoyLmjyuqT4haG">3</span></span></span></span>
+      <span class="op" style="--i:1" data-page-node-id="UxhoQ8PIc1nhcySyOu2aUb">+</span>
+      <span class="term" style="--i:2" data-page-node-id="Of8lhqGZT5jvmgHvb8uCeG"><span class="frac" data-page-node-id="JU3zKhGCFLq3fnhIZyFnJk"><span class="num" data-page-node-id="OXFyEne4NrlyAFIKdG6j5M">3</span><span class="fline" data-page-node-id="AU3fn4wa4wIIJboa80Vt1N"></span><span class="den" data-page-node-id="MbckTjYw4X6hc1HVyGLGY2"><span class="f1" data-page-node-id="PtzJtVzWmhRVPhX8Vfy0CR">2</span>×<span class="f2" data-page-node-id="nIpOpXyvpASCvQq58vyh1N">3</span>×<span class="f3" data-page-node-id="X8aAfvAIoaGJX6VNQHbumf">4</span></span></span></span>
+      <span class="op" style="--i:3" data-page-node-id="3YoEoDRTG4mQrdHRHDy118">+</span>
+      <span class="term" style="--i:4" data-page-node-id="Y7XdR7oW9s8v3TTUQpS5KV"><span class="frac" data-page-node-id="cVgwnn6ZsfVD28vlewrCrN"><span class="num" data-page-node-id="tfzesEZZYM21vApt8IUGI0">3</span><span class="fline" data-page-node-id="1Y3raMHGt0rrUAt4SjPEhc"></span><span class="den" data-page-node-id="I3RopvjhB3SWdIowUP6zkq"><span class="f1" data-page-node-id="lL0b0buC57fz2NzWTGPbgN">3</span>×<span class="f2" data-page-node-id="lwtYWn8DoAW6kGLwdH07pf">4</span>×<span class="f3" data-page-node-id="63k6bFRgqJ4QDrRpAAxoEu">5</span></span></span></span>
+      <span class="op" style="--i:5" data-page-node-id="5ZOOqkBBbvSgt3VwEdzLO7">+</span>
+      <span class="op" style="--i:6" data-page-node-id="MtrKOEnn5o8stkdS9svtaj">⋯</span>
+      <span class="op" style="--i:7" data-page-node-id="AM7hTHxCAAsDlecqwBEYty">+</span>
+      <span class="term" style="--i:8" data-page-node-id="4nxNj07XjmlqjG8uxUOuwn"><span class="frac" data-page-node-id="CVlwCXdMaahEAZASBxcQiC"><span class="num" data-page-node-id="PAOJKylFKMvoBKpr8TGxes">3</span><span class="fline" data-page-node-id="OxeVaZVuJreWgA00PT5XxJ"></span><span class="den" data-page-node-id="iz4XTwuHWv53kLJBv60iW8"><span class="f1" data-page-node-id="8tCuZas5EdBHJzU2S29Ou1">10</span>×<span class="f2" data-page-node-id="1RfNOHkyTYSr8Vx3A7QbnQ">11</span>×<span class="f3" data-page-node-id="m016cqwBFVGD2rbTnuf7O9">12</span></span></span></span>
     </div>
-    <div class="annD">每个分母都变成：连续三个数相乘（分子统一是 3）</div>
+    <div class="annD" data-page-node-id="ISBI4rjE2TsSzzWsJWUNai">每个分母都变成：连续三个数相乘（分子统一是 3）</div>
   </div>
 
   <!-- 场景 E：条形图二次裂项 -->
-  <div class="scene" id="sceneE">
-    <div class="bartitle">三个数连乘怎么拆？还是用条形看 <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2×3</span></span></div>
-    <div class="brow">
-      <span class="blabel"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2</span></span></span>
-      <div class="bbox"><div class="bbar bfull"></div><div class="diffzone"></div></div>
+  <div class="scene" id="sceneE" data-page-node-id="5Eb9B5J6NubWWOTfGeVmiy">
+   <div class="erow">
+    <div class="ecol eleft">
+    <div class="bartitle" data-page-node-id="0vCSDvdNQPR6VuKH6jrUJ0">三个数连乘怎么拆？用条形看 <span class="frac" data-page-node-id="x0IWd99MHBW2GpFnk13FGP"><span class="num" data-page-node-id="Cmun8iQPluQN1aY0yzBDS8">1</span><span class="fline" data-page-node-id="VnciGGX2I6BwWDzyKDlLcz"></span><span class="den" data-page-node-id="XbVdHqc84Q1vrUJCebvyEE">1×2×3</span></span></div>
+    <div class="brow" data-page-node-id="gDlh2jwvSLhwpsowUYJI03">
+      <span class="blabel" data-page-node-id="5IJ5SDbLEIxXArgapaqPHl"><span class="frac" data-page-node-id="Vah32wJv39ADdYJxZaxTwo"><span class="num" data-page-node-id="HmnwS5E6XXuI7gG1Popyqb">1</span><span class="fline" data-page-node-id="MfhgyaiCQ0ZHIVei41k8cF"></span><span class="den" data-page-node-id="7CB1i9Uc3TFoxuBVoZUDrO">1×2</span></span></span>
+      <div class="bbox" data-page-node-id="hr2rsNDV82EYcqRLHnNgXI"><div class="bbar bfull" data-page-node-id="CuSjCKBJ6pGEOBGpRG0IHW"></div><div class="diffzone" data-page-node-id="nBmBk7Mxru5cn71nHKRE7j"></div></div>
     </div>
-    <div class="brow">
-      <span class="blabel"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2×3</span></span></span>
-      <div class="bbox"><div class="bbar bthird"></div></div>
+    <div class="brow" data-page-node-id="iRF0WYYaZkScGt3yV9He3g">
+      <span class="blabel" data-page-node-id="GF8gRBDAeiKeMvBNzM4Knx"><span class="frac" data-page-node-id="ZVt1qfhV3Dte1yTEJwjeqr"><span class="num" data-page-node-id="WuMar3lUCUaIKw7N1yH9OY">1</span><span class="fline" data-page-node-id="gN7m3Z2WzGpRZvn242PMV2"></span><span class="den" data-page-node-id="V0L6YBAAGmfJNFC8eff6O0">2×3</span></span></span>
+      <div class="bbox" data-page-node-id="OqFzRLXlYFeih0e9MMoQUB"><div class="bbar bthird" data-page-node-id="F3Rkt6UjHSAOEdGSDk9Q9X"></div></div>
     </div>
-    <div class="diffnote">差 = <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2</span></span> − <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6</span></span> = <b><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">3</span></span></b></div>
-    <div class="halfrow">
-      <div class="bhalf h1"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6</span></span></div>
-      <div class="bhalf h2"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6</span></span></div>
+    <div class="diffnote" data-page-node-id="2p66Roy46lqo96epQPcaxW">差 = <span class="frac" data-page-node-id="DDNnQaJVyp816ZOTodequW"><span class="num" data-page-node-id="BOCJx8pYGftucJ5etfsPhT">1</span><span class="fline" data-page-node-id="UzfFxad6MxZXasEQHyGOwG"></span><span class="den" data-page-node-id="gRAPtfkZtHzhvZPSZ5wBqQ">2</span></span> − <span class="frac" data-page-node-id="XJyQjGkFV1mkr7S1CT9zSP"><span class="num" data-page-node-id="R4uhKUkt9Hj1i6nQCnIHFo">1</span><span class="fline" data-page-node-id="XgflvwjrHYqQoyl3uKaILD"></span><span class="den" data-page-node-id="7sWzIxttqUvdgz4Tj1HbiK">6</span></span> = <b data-page-node-id="by4E9nIKaxJR23aKX1cAWh"><span class="frac" data-page-node-id="ECkb3YPsoyofrvJlBE26Ts"><span class="num" data-page-node-id="Pw3rxrJg6K1KEd43YKndxX">1</span><span class="fline" data-page-node-id="hd5KOxDAzhNrifv8hEkLeA"></span><span class="den" data-page-node-id="3FdloNvHxJ1AECG38ZC6CE">3</span></span></b></div>
     </div>
-    <div class="halfeq">差正好是 <b>两个</b> <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6</span></span>　→　差的一半 = <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2×3</span></span></div>
-    <div class="beq2"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2×3</span></span> = <span class="half2"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2</span></span></span> × ( <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2</span></span> − <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2×3</span></span> )</div>
+    <div class="ecol eright">
+    <div class="halfrow" data-page-node-id="SFPn0INtm2RzFGeMhuK3NH">
+      <div class="bhalf h1" data-page-node-id="WQhbSN8gdQ3ux99jmaWGVa"><span class="frac" data-page-node-id="EaVjRGfnIsWNqv71q5ooi9"><span class="num" data-page-node-id="a1eOWsWEPDkXWRyha38tzQ">1</span><span class="fline" data-page-node-id="5ziYfeNDHmRS3FZYUUHyKM"></span><span class="den" data-page-node-id="K3mmxMdHvr4Ak7gL5c83ob">6</span></span></div>
+      <div class="bhalf h2" data-page-node-id="9IUIWdITSboCD0KIuH24tR"><span class="frac" data-page-node-id="mrbSOdXqSGUORVwmusLRCq"><span class="num" data-page-node-id="IFDs7Dw7waiLfvKMJLExj0">1</span><span class="fline" data-page-node-id="AD3xdD2dzQmx5peaodFDQk"></span><span class="den" data-page-node-id="HiANAocc8CbJFCBMhv7wVv">6</span></span></div>
+    </div>
+    <div class="halfeq" data-page-node-id="ql3fQDbHEMwNT6FHqUnBJv">差正好是 <b data-page-node-id="jQ4P42DOib12SbsRXhiyIF">两个</b> <span class="frac" data-page-node-id="1TtNPCXTddggk9FvAvTGA7"><span class="num" data-page-node-id="q3D4NSoSG0CXkGESutPsQn">1</span><span class="fline" data-page-node-id="TVa8NXlBt0ePo71AESLn4K"></span><span class="den" data-page-node-id="Itl7Z6xWJLO4y9Tq8B7GHG">6</span></span><br>→　差的一半 = <span class="frac" data-page-node-id="jFUp0xOAw7tsrEc5GLl6QY"><span class="num" data-page-node-id="jCojlFfYb2qVT2pUsgGmNS">1</span><span class="fline" data-page-node-id="NZanCB0ctL6JFpOtXhg9NW"></span><span class="den" data-page-node-id="hiqAKUW44RN1MxqPoGiMJO">1×2×3</span></span></div>
+    </div>
+   </div>
+    <div class="beq2" data-page-node-id="VID77vY4bFYhDBO3OCUpLG"><span class="frac" data-page-node-id="NtnMIDaoa2OBimKkzsJGuZ"><span class="num" data-page-node-id="pv2FsnPAaB19a0Y2jWSyul">1</span><span class="fline" data-page-node-id="QGJqiQpXHvh1qYkmOR8hvc"></span><span class="den" data-page-node-id="tGKDLF6Yloi3E957DArGAi">1×2×3</span></span> = <span class="half2" data-page-node-id="2xq7IzkImF0GV8q2WPn5fz"><span class="frac" data-page-node-id="9mBsvwvBXgXp9ebgHsviqA"><span class="num" data-page-node-id="2hOffc8RAHacjwYVJlXexN">1</span><span class="fline" data-page-node-id="D18hgSQKbz2VbgAEUSgPrO"></span><span class="den" data-page-node-id="sU8tezAJ8LzNkmhLMQ3mO8">2</span></span></span> × ( <span class="frac" data-page-node-id="J3kLDNT40KwdnjMvGE7FAO"><span class="num" data-page-node-id="NBMK5OUlhddjNJJ0r6YZJ3">1</span><span class="fline" data-page-node-id="9Q8Xi7aKpCamZmQzppYqfo"></span><span class="den" data-page-node-id="I5m87jPixnDfFpIUFiCOLp">1×2</span></span> − <span class="frac" data-page-node-id="KbvKMwfhbKlCOSXBONAlhS"><span class="num" data-page-node-id="dZKpPaks92CewFTRvg5jf4">1</span><span class="fline" data-page-node-id="zD10PCpSk5jbYZps0Rt13z"></span><span class="den" data-page-node-id="IujOPmRqxxgJqrrkRAJzes">2×3</span></span> )</div>
   </div>
 
   <!-- 场景 F：通项公式 -->
-  <div class="scene" id="sceneF">
-    <div class="cformula">
-      <span class="frac"><span class="num">3</span><span class="fline"></span><span class="den"><span class="vn k">k</span>×(<span class="vn k">k</span>+<span class="vn k1">1</span>)×(<span class="vn k">k</span>+<span class="vn k2">2</span>)</span></span>
+  <div class="scene" id="sceneF" data-page-node-id="U0Soy2cgbOimERTNBxANfk">
+    <div class="cformula" data-page-node-id="WhjxETkSSvRUhDBIkxzvsJ">
+      <span class="frac" data-page-node-id="ebgA3EZgDvrIxQk32Rclif"><span class="num" data-page-node-id="iUZCJHzi0Q2uGjcNf2XQhz">3</span><span class="fline" data-page-node-id="MteYd4pYanwLN9GHOjiG9c"></span><span class="den" data-page-node-id="PF0hm7m0Vio7JmrCS6vPfF"><span class="vn k" data-page-node-id="fdO3NKw1EvUvG5ag6LU6dS">k</span>×(<span class="vn k" data-page-node-id="z9qlvk8i2cjuKTH8JzUIjO">k</span>+<span class="vn k1" data-page-node-id="XSrQ6M6qeGyLpseABcNZue">1</span>)×(<span class="vn k" data-page-node-id="iIAnwPd10GJJUY1dc09mmb">k</span>+<span class="vn k2" data-page-node-id="VEINGXPiWxqvYTvuLRQHf6">2</span>)</span></span>
       =
-      <span class="c32 hl2"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den">2</span></span></span>
+      <span class="c32 hl2" data-page-node-id="9GrA7Bar5SlFmECjilIrmu"><span class="frac" data-page-node-id="6xfD2L83NAsS4tMkYYTIHf"><span class="num" data-page-node-id="G4tltMakFEjEoGHVA2tFPB">3</span><span class="fline" data-page-node-id="HjnCI8PfGuEMnsf4BcnXwt"></span><span class="den" data-page-node-id="CHTGKPTlbVk6hLdlHHFdSG">2</span></span></span>
       × (
-      <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den"><span class="vn k">k</span>×(<span class="vn k">k</span>+<span class="vn k1">1</span>)</span></span>
+      <span class="frac" data-page-node-id="bfHAyPlDxS2kZc6s4wBmj4"><span class="num" data-page-node-id="XaUkCP89cNwzOdkDdQhzuk">1</span><span class="fline" data-page-node-id="0Ftg2oBYTxPIucPTeWAPb0"></span><span class="den" data-page-node-id="292BfaZeDBSms1t7mFtcOU"><span class="vn k" data-page-node-id="Mj7nvlsxjs6vfm4ugYcUbl">k</span>×(<span class="vn k" data-page-node-id="5PAm11XZjibxZCMUq8itqp">k</span>+<span class="vn k1" data-page-node-id="lKD9rROcSKi77EA4VU8Cv7">1</span>)</span></span>
       −
-      <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">(<span class="vn k">k</span>+<span class="vn k1">1</span>)×(<span class="vn k">k</span>+<span class="vn k2">2</span>)</span></span>
+      <span class="frac" data-page-node-id="QLth9kbev2xDQ6OP3JC5eE"><span class="num" data-page-node-id="Rk0E65NGy8fwZB5sa83u62">1</span><span class="fline" data-page-node-id="xlLacvDzkM9jlMqcHChw8f"></span><span class="den" data-page-node-id="v2iCBEy0o93iBeohiI1aPL">(<span class="vn k" data-page-node-id="BDq7Lu1G2XnliwzF32Z15G">k</span>+<span class="vn k1" data-page-node-id="v4pPp1xoNasMPmFYhs6lGF">1</span>)×(<span class="vn k" data-page-node-id="KSXoceoT1JIKtTNWgC9DMB">k</span>+<span class="vn k2" data-page-node-id="2dpV9VzFMpfsyUB288dIMN">2</span>)</span></span>
       )
     </div>
-    <div class="cann">分母化简带来系数 <b>3</b> <span class="arr">→</span> 裂项带来 <b>½</b> <span class="arr">→</span> 合起来每次乘 <b>3/2</b></div>
+    <div class="cann" data-page-node-id="ipqu6vMpKtpPkhFoaeSLTi">分母化简带来系数 <b data-page-node-id="3geDYE2STV7DEdKGYi1vwQ">3</b> <span class="arr" data-page-node-id="wAuiXZH9MXlEHk3P20lSwt">→</span> 裂项带来 <b data-page-node-id="7sKB8h6FwRAuDJkJK50MFM">½</b> <span class="arr" data-page-node-id="wK2ej3OqWGLSJr1ADze4PY">→</span> 合起来每次乘 <b data-page-node-id="yKCbLbkyGG1IC2eQ01Q7aJ">3/2</b></div>
   </div>
 
   <!-- 场景 G：展开 → 抵消 → 结果 -->
-  <div class="scene" id="sceneG">
-    <div class="dtitle">全部拆开：上排为正（蓝），下排为负（橙）</div>
-    <div class="expand">
-      <span class="coeff"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den">2</span></span></span>
-      <span class="paren">(</span>
-      <div class="cols">
-        <div class="col" style="--i:0"><div class="tok pos"><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2×3</span></span></div></div>
-        <div class="col" style="--i:1"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">2×3</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">3×4</span></span></div></div>
-        <div class="col" style="--i:2"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">3×4</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">4×5</span></span></div></div>
-        <div class="col" style="--i:3"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">4×5</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">5×6</span></span></div></div>
-        <div class="col" style="--i:4"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">5×6</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6×7</span></span></div></div>
-        <div class="col" style="--i:5"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">6×7</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">7×8</span></span></div></div>
-        <div class="col" style="--i:6"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">7×8</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">8×9</span></span></div></div>
-        <div class="col" style="--i:7"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">8×9</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">9×10</span></span></div></div>
-        <div class="col" style="--i:8"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">9×10</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">10×11</span></span></div></div>
-        <div class="col" style="--i:9"><div class="tok pos">+<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">10×11</span></span></div><div class="tok neg">−<span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">11×12</span></span></div></div>
+  <div class="scene" id="sceneG" data-page-node-id="sIiFTlHhlcYuY6wpcuKQZS">
+    <div class="dtitle" data-page-node-id="tC6I5lw3Fpzg5eKzS6X9O1">全部拆开：上排为正（蓝），下排为负（橙）</div>
+    <div class="expand" data-page-node-id="20GU5O1Lx7DgBl7lxly8bz">
+      <span class="coeff" data-page-node-id="RpWkr1X6X8O7zXNI2AHCmY"><span class="frac" data-page-node-id="ZzGdCs8s9aKjKRT5zQzTMR"><span class="num" data-page-node-id="kzVdBBHIdwOBqoPifU64Lr">3</span><span class="fline" data-page-node-id="WqAcSV58qoG2EUhRjUTzmI"></span><span class="den" data-page-node-id="kkwezYNNz4gUxLR74fjAt6">2</span></span></span>
+      <span class="paren" data-page-node-id="pQKkzxIGvuutE6TgYp2QaO">(</span>
+      <div class="cols" data-page-node-id="UBBP1TYyNkEKWJKYZiq17X">
+        <div class="col" style="--i:0" data-page-node-id="EHL7TVHX23gZC5VkIa0jI0"><div class="tok pos" data-page-node-id="HAmvAActDzEswCUgQHhQig"><span class="frac" data-page-node-id="loLKmD9DuxfZRnDwXNClcC"><span class="num" data-page-node-id="EGu9gKG7weISWj87PHN22C">1</span><span class="fline" data-page-node-id="64LBB4iCuW8fB4CPRVRMjM"></span><span class="den" data-page-node-id="sRKpPBEfBtO6aZDz2cENdD">1×2</span></span></div><div class="tok neg" data-page-node-id="QLUFlTADQGHls0dLhsQvjv">−<span class="frac" data-page-node-id="TOwSUP5Ln6Gq1qBHl1S1Jq"><span class="num" data-page-node-id="8RFXg7PSS5MosIfi0qQe1h">1</span><span class="fline" data-page-node-id="9f07bl5VZC5DMYPq5D5pbg"></span><span class="den" data-page-node-id="Xw2CHKLcd5W8Wqg2Dbc6JY">2×3</span></span></div></div>
+        <div class="col" style="--i:1" data-page-node-id="NZJ4G3YDu4m4h12XbM7mJi"><div class="tok pos" data-page-node-id="5qbloyqCILM3wsF8YcM73T">+<span class="frac" data-page-node-id="NPRg7PtwTAgGmwxnWVBsQC"><span class="num" data-page-node-id="cPvsOYb0DTvWtsAwG3Y2S3">1</span><span class="fline" data-page-node-id="71EJeUHj266x3pbbfaWDvn"></span><span class="den" data-page-node-id="vwuD0oeUYXC1XLP75yVufi">2×3</span></span></div><div class="tok neg" data-page-node-id="eSLq0pbjNmPFtYBzD1vo9q">−<span class="frac" data-page-node-id="NtNOepGjTfxuajBhTC6D7p"><span class="num" data-page-node-id="xaDf6UMJTTxcDrxOJrd5Iq">1</span><span class="fline" data-page-node-id="buDAXw77dRUoEHZJhwXBr7"></span><span class="den" data-page-node-id="U6NhPjnZXVGng0SF7tnAv5">3×4</span></span></div></div>
+        <div class="col" style="--i:2" data-page-node-id="Sr9kEV2GgoUQjazdaXAQ7A"><div class="tok pos" data-page-node-id="gA7BdgmJcaXkzieCtnbBnZ">+<span class="frac" data-page-node-id="NdMMZHGiitMgMpX0IwbVHR"><span class="num" data-page-node-id="2jG8JxoGci0MjMUc2iucEn">1</span><span class="fline" data-page-node-id="JQFXcWOwJKP2gf1WDp0QAf"></span><span class="den" data-page-node-id="WztPcwQh3nS1LK33TZO2cK">3×4</span></span></div><div class="tok neg" data-page-node-id="fbzmXvMPZod50bWmo9HDNE">−<span class="frac" data-page-node-id="AsrP70ToCHJa76BOzVuoxn"><span class="num" data-page-node-id="nJlV7w0q6RGwjBbp07IWcO">1</span><span class="fline" data-page-node-id="N4CTIL6lUVHf60atxZFJzB"></span><span class="den" data-page-node-id="i8prM0oOgQtiZY33Q7zL3s">4×5</span></span></div></div>
+        <div class="col" style="--i:3" data-page-node-id="l7Qn9fPNtDQrZ2Uz5oBmCS"><div class="tok pos" data-page-node-id="JZIS1C45kPiGr8l4UKZaB3">+<span class="frac" data-page-node-id="mdng1VQA6fGVk9AK9XbD8b"><span class="num" data-page-node-id="cvfMeskhJbIzO0qKoYctOc">1</span><span class="fline" data-page-node-id="5EGM7bzQYaacIvMYUZlFFN"></span><span class="den" data-page-node-id="V2EZeRqEBZOAyyNh2laSk9">4×5</span></span></div><div class="tok neg" data-page-node-id="PdOckeYb9ZVSpPkCMKJYdX">−<span class="frac" data-page-node-id="B0f5bcfpjeXNDg05dg2qbl"><span class="num" data-page-node-id="DrXSUIB6VIOMNEz5BkaMBg">1</span><span class="fline" data-page-node-id="AGcBokBM5MxlOjPAOUBK3F"></span><span class="den" data-page-node-id="jb71BR7UM017aqklpRaxYv">5×6</span></span></div></div>
+        <div class="col" style="--i:4" data-page-node-id="wJQhHZjZ0q0HA3cFXldDP4"><div class="tok pos" data-page-node-id="ofk37wXAhMv3NIqmAXZqwY">+<span class="frac" data-page-node-id="S9GBwQQxL0Zli50r7npPAi"><span class="num" data-page-node-id="iuNIUYt2tjNPVwcm6BkfvJ">1</span><span class="fline" data-page-node-id="Dt8y3o9fUVcf8AHeYnSFYe"></span><span class="den" data-page-node-id="AEuTieRgtiwfqAgPpeEakC">5×6</span></span></div><div class="tok neg" data-page-node-id="SbKKA8GA9OXute8vIluECr">−<span class="frac" data-page-node-id="C1kmLuxBSamgzPiDq7shKi"><span class="num" data-page-node-id="zphtDBlNtnQJHDjKIZQqMV">1</span><span class="fline" data-page-node-id="UJSSDbzDw1Vnf1U9xYuiFS"></span><span class="den" data-page-node-id="Bsy09oNwsROLTjTN3Lloju">6×7</span></span></div></div>
+        <div class="col" style="--i:5" data-page-node-id="Nqo0Fp58hgga6cne1oZBR7"><div class="tok pos" data-page-node-id="6iXYsi337ej9yZX16IgYjB">+<span class="frac" data-page-node-id="CDvU704OfTNJusWmYfzUY5"><span class="num" data-page-node-id="pUPsjJZdpenN5SFoasVJ5e">1</span><span class="fline" data-page-node-id="uXw3ofof42HUrI7hqUvCZf"></span><span class="den" data-page-node-id="If9rooTMSBgTpeLLiMsEIA">6×7</span></span></div><div class="tok neg" data-page-node-id="deKvockWs6FvbUVUGk3n2R">−<span class="frac" data-page-node-id="iUwBJikHu1GTsNGzjszfqp"><span class="num" data-page-node-id="SQmcXIqHs6G6w3aduDn0xx">1</span><span class="fline" data-page-node-id="ZCkH0QlSZ2twEkZidXS6I3"></span><span class="den" data-page-node-id="t2xP0Y2PJmBGUJrk2BYgqE">7×8</span></span></div></div>
+        <div class="col" style="--i:6" data-page-node-id="BkjXCn21TJ1eU4U5GoHixL"><div class="tok pos" data-page-node-id="tqYT36RB4OllQxXRNjAh7c">+<span class="frac" data-page-node-id="RqDYKADlhT7VlwlPROmjEh"><span class="num" data-page-node-id="WZfUw6XsbEACwA2jc6bcBk">1</span><span class="fline" data-page-node-id="OluBq7CY5hPJPsuCK2AS4n"></span><span class="den" data-page-node-id="WLzj8u9JB63RU4HUGdNZ5Z">7×8</span></span></div><div class="tok neg" data-page-node-id="FEStJHc4d486zgJznI3Nl5">−<span class="frac" data-page-node-id="LSWGbHplWD0wFYIDUoaAvT"><span class="num" data-page-node-id="zCAoyArC9Pvuhcq98dsUEN">1</span><span class="fline" data-page-node-id="GPMTAEkGy4JpPlvnAFPnW6"></span><span class="den" data-page-node-id="HWqCAHGBA6NAR3RsT0Ro4Z">8×9</span></span></div></div>
+        <div class="col" style="--i:7" data-page-node-id="i9t5kskGGAL2vEIc2RrKFw"><div class="tok pos" data-page-node-id="dq6eJXSagSCAeKUtgQ2Vi7">+<span class="frac" data-page-node-id="XkUQ5FdBZt7kLwJH3st0ch"><span class="num" data-page-node-id="NgrbgKg90KDPVWD7cQ8y3T">1</span><span class="fline" data-page-node-id="iApsafGxVRrP6Gr28cLiLP"></span><span class="den" data-page-node-id="F2ru6MO9merE2RmGSvLDkB">8×9</span></span></div><div class="tok neg" data-page-node-id="58bCZUhiDU46ekvYuZ92y9">−<span class="frac" data-page-node-id="i5CLsvVgmPvFqRbjls61gR"><span class="num" data-page-node-id="gWcQkPC3eZIUpFWPUq4BRm">1</span><span class="fline" data-page-node-id="LqlHBqgXK73r9hxhCFErnr"></span><span class="den" data-page-node-id="52H5v58u035U7G4dp64VDy">9×10</span></span></div></div>
+        <div class="col" style="--i:8" data-page-node-id="c8djlTBgpamAGfD8kZHxOb"><div class="tok pos" data-page-node-id="rP5vnsBHzLTCW6WDn1PlmX">+<span class="frac" data-page-node-id="2mmViwVSVpF3NEXqLrX4Dt"><span class="num" data-page-node-id="3S3rsF5YTSsG6OIJNbhNhN">1</span><span class="fline" data-page-node-id="XovdxDB93GR8ZAXG6xdzy6"></span><span class="den" data-page-node-id="NZm05Gh769bWVXDWNPBUpu">9×10</span></span></div><div class="tok neg" data-page-node-id="4nqmhtWLgbjXMVQGrsCREd">−<span class="frac" data-page-node-id="bTX3uwWCuE735cL2NQelDg"><span class="num" data-page-node-id="9Hq0u0FIqrosXxvTbBXFFh">1</span><span class="fline" data-page-node-id="zVWLJLvpztH0jFRNyV0uEP"></span><span class="den" data-page-node-id="61LDTR6DnIBSSsgSg8bkCZ">10×11</span></span></div></div>
+        <div class="col" style="--i:9" data-page-node-id="dKGHQLQBOi284tEv7HmMLr"><div class="tok pos" data-page-node-id="W16LfyvGzwoJx3S5tyKHlr">+<span class="frac" data-page-node-id="bYKeKAd4UfTzNXE8ixydrD"><span class="num" data-page-node-id="mODCvO745ZIV8e8G1QOrzt">1</span><span class="fline" data-page-node-id="ScdgkRFJpBE1vXD3OlauaV"></span><span class="den" data-page-node-id="qLr1YgzQ2n1oIWvD5HMxoy">10×11</span></span></div><div class="tok neg" data-page-node-id="XNj0bSDr4aydmFiv4xdoeN">−<span class="frac" data-page-node-id="thE8n166LsCyZPBdqkwUpW"><span class="num" data-page-node-id="yfRaELG5fcPAc1Bh0JF7dW">1</span><span class="fline" data-page-node-id="3e8L9O4BIqLrVnZ3DN7JSC"></span><span class="den" data-page-node-id="E99ANGzmksbnT2jcRuvRTA">11×12</span></span></div></div>
       </div>
-      <span class="paren">)</span>
+      <span class="paren" data-page-node-id="wvBWkw8bywdCXAfvCqpsdo">)</span>
     </div>
-    <div class="result r9a">= <span class="c32"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den">2</span></span></span> × ( <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2</span></span> − <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">11×12</span></span> )</div>
-    <div class="result r9b">= <span class="c32"><span class="frac"><span class="num">3</span><span class="fline"></span><span class="den">2</span></span></span> × <span class="frac"><span class="num">65</span><span class="fline"></span><span class="den">132</span></span> = <span class="final"><span class="frac"><span class="num">65</span><span class="fline"></span><span class="den">88</span></span></span></div>
+    <div class="result r9a" data-page-node-id="BH16OesmwVcO2LFbx3iKHS">= <span class="c32" data-page-node-id="radTmrfLDHDi3WpjavhnC5"><span class="frac" data-page-node-id="YwOM7bah280qvObFnBDAGL"><span class="num" data-page-node-id="SbULGAAB2Fd1sp2yDuKUDz">3</span><span class="fline" data-page-node-id="IqvooGXxh1owZjbOwYUGqy"></span><span class="den" data-page-node-id="coyO0V1FISVO3IbA11uTYC">2</span></span></span> × ( <span class="frac" data-page-node-id="j7TmJwyvyX86vmUcpc7GVP"><span class="num" data-page-node-id="hYwFdU0n3PukSF7Gn5jEp4">1</span><span class="fline" data-page-node-id="261UBTRrxfkxrcebMSYVav"></span><span class="den" data-page-node-id="MW9nHyFvxXVd48pD1W0ra7">1×2</span></span> − <span class="frac" data-page-node-id="Cw4K8GMI7ynBsw1KjZqd8t"><span class="num" data-page-node-id="BspC7c5KYMFoWAlOnoEsK5">1</span><span class="fline" data-page-node-id="8DjZgrRgysZYLYSpI4NnjE"></span><span class="den" data-page-node-id="LBT4W0EcHORxg7bfTuOoeq">11×12</span></span> )</div>
+    <div class="result r9b" data-page-node-id="bbTj8QOPkoSGHBf0lk8cz5">= <span class="c32" data-page-node-id="5QukEZMuBN4hLJM6KLlvtX"><span class="frac" data-page-node-id="V4d7mC6fxvs42EcnkfJZtg"><span class="num" data-page-node-id="ESVRhU5x8NpGCC3eHCkkzo">3</span><span class="fline" data-page-node-id="0lEFUSe0f2KNh9shf05Szq"></span><span class="den" data-page-node-id="g01aTy5XzRnFeT5n0K00ya">2</span></span></span> × <span class="frac" data-page-node-id="9ocYQtRge1UotQFcACacSg"><span class="num" data-page-node-id="O3twdk5VtLPJE0VZcI5OVj">65</span><span class="fline" data-page-node-id="uKaKWiAJP17Fo1ZRPEFBuR"></span><span class="den" data-page-node-id="sCxBluFvOpiG1IiBYfPGCv">132</span></span> = <span class="final" data-page-node-id="M8r7zZFMYXS3CunpwjSaFE"><span class="frac" data-page-node-id="nteoZIlFJ1FZM6S3zhUuqX"><span class="num" data-page-node-id="FlCnvD82Es0Rqal3xOxZDF">65</span><span class="fline" data-page-node-id="iYdfPTG8TBrUCXzbZGFMn1"></span><span class="den" data-page-node-id="5MRZJPrMwE1aw9pw4JACZd">88</span></span></span></div>
   </div>
 
   <!-- 场景 H：总结 -->
-  <div class="scene" id="sceneH">
-    <div class="etitle">累加和分母 · 四步口诀</div>
-    <div class="cards">
-      <div class="card" style="--i:0"><div class="ck">化</div><div class="cd">分母累加和<br>→ 连续三数乘积 ÷3</div></div>
-      <div class="card" style="--i:1"><div class="ck">拆</div><div class="cd">三数连乘倒数<br>→ 两项倒数差 ×½</div></div>
-      <div class="card" style="--i:2"><div class="ck">消</div><div class="cd">相邻两项配对<br>一正一负相消</div></div>
-      <div class="card" style="--i:3"><div class="ck">算</div><div class="cd">只剩一头一尾<br>通分收尾</div></div>
+  <div class="scene" id="sceneH" data-page-node-id="uBssdrGL2poUMZ76CHEPOv">
+    <div class="etitle" data-page-node-id="eg4GGCv9J9cZKuxh3du4EA">累加和分母 · 四步口诀</div>
+    <div class="cards" data-page-node-id="nBxL6ZjNup1VlxKWAG5HCN">
+      <div class="card" style="--i:0" data-page-node-id="yzRdMyfD528sn2xPm3Npb6"><div class="ck" data-page-node-id="wwgZfbANPRYEJje4DjEsIs">化</div><div class="cd" data-page-node-id="vMYCQRTg7dcAwYUJ7oIt7d">分母累加和<br data-page-node-id="mNpeHZxOobbDUopINJLQEQ">→ 连续三数乘积 ÷3</div></div>
+      <div class="card" style="--i:1" data-page-node-id="RpA1sh6Llmhh2X1sGMUZkh"><div class="ck" data-page-node-id="qRsUB6lgG1oUXVnc9rCyXV">拆</div><div class="cd" data-page-node-id="HXml0HHQ68XYlEc5pbJW1z">三数连乘倒数<br data-page-node-id="t7EYd2LOxk8LL2hwUTGVsQ">→ 两项倒数差 ×½</div></div>
+      <div class="card" style="--i:2" data-page-node-id="AwSoMGe15af3p6qks3uxEc"><div class="ck" data-page-node-id="lKRYE0mB1d4AvUjGbs7Ca1">消</div><div class="cd" data-page-node-id="nhnOS4f7P23Wl31XNPfD0D">相邻两项配对<br data-page-node-id="HaxiiPBQzGi1Sk5aUgDJZS">一正一负相消</div></div>
+      <div class="card" style="--i:3" data-page-node-id="bDZKwffJwEb6SSEwkMbvoA"><div class="ck" data-page-node-id="KWqyHRQNTh4kuUYnaNYGck">算</div><div class="cd" data-page-node-id="hlCQ7uMyiCrbgERuCtEdCk">只剩一头一尾<br data-page-node-id="L0DwiOlPm4KwzUUm1SBuHk">通分收尾</div></div>
     </div>
-    <div class="practice"><b>练一练：</b><span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2</span></span> + <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2+2×3</span></span> + … + <span class="frac"><span class="num">1</span><span class="fline"></span><span class="den">1×2+⋯+20×21</span></span> = ？</div>
+    <div class="practice" data-page-node-id="E3olo1LpLFpEzHdtX05pGO"><b data-page-node-id="kIJYnFcrdg1J02VfTyVSvb">练一练：</b><span class="frac" data-page-node-id="5PNBPLzN0qS8BBuASUxn36"><span class="num" data-page-node-id="a1lhF7K3eLRiD3enwMy0Wi">1</span><span class="fline" data-page-node-id="CnuAl8QixzlKSZt521stzc"></span><span class="den" data-page-node-id="GWazDQ0GejLejREngToPRj">1×2</span></span> + <span class="frac" data-page-node-id="WqlQO2OItIurOVPyorrvdY"><span class="num" data-page-node-id="JHW2skePqzRVSDqHfXM4AM">1</span><span class="fline" data-page-node-id="8WREMFq8y5Fm8ycNZIh8TU"></span><span class="den" data-page-node-id="ZzhON7ABESFnDZ7kiY9XkP">1×2+2×3</span></span> + … + <span class="frac" data-page-node-id="b3RwI3XIAGfq90kAHaED2W"><span class="num" data-page-node-id="vCTxw0DNEcTRaNA2vGCxPi">1</span><span class="fline" data-page-node-id="f0EMAfwNPDxGuUGZnKkg4l"></span><span class="den" data-page-node-id="iI9rTwQVqQIrEUYTHS744N">1×2+⋯+20×21</span></span> = ？</div>
   </div>
 
-  <div class="tip" id="tip"></div>
-  <div class="controls">
-    <button id="prev" title="上一步（←）"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <span class="ind" id="ind">1/10</span>
-    <button id="next" title="下一步（空格/→）"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button id="replay" title="重播本步（R）"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg></button>
+  <div class="tip" id="tip" data-page-node-id="BXm9gFzN9payKWJWd8t0aB"></div>
+  <div class="controls" data-page-node-id="G2V5MDPyH9Sn2RxZuDdw4g">
+    <button id="prev" title="上一步（←）" data-page-node-id="STRx8eATvhqtComR8XVumV"><svg viewBox="0 0 24 24" data-page-node-id="jMHHZzQ0TsEA2Di9RZ6FZq"><path d="M15 5l-7 7 7 7" data-page-node-id="6cjHwHboZmNK0yTmhf65cp"/></svg></button>
+    <span class="ind" id="ind" data-page-node-id="J6iZnWfEQg6qt6QxDcE96O">1/10</span>
+    <button id="next" title="下一步（空格/→）" data-page-node-id="2U9M3AmnUnFMyDU0BLpvkb"><svg viewBox="0 0 24 24" data-page-node-id="kwcUcWN1J8d8Mx4wftAgeV"><path d="M9 5l7 7-7 7" data-page-node-id="4BXivkKvyVcvGze9rCEKcE"/></svg></button>
+    <button id="replay" title="重播本步（R）" data-page-node-id="f7WI7DEB88ZFYsNNQJ5j2T"><svg viewBox="0 0 24 24" data-page-node-id="DMS5giUAkU0tVa3CgTODby"><path d="M3 12a9 9 0 1 0 2.6-6.4" data-page-node-id="w3icHwyPvZjypuRUTLKtGI"/><path d="M3 4v5h5" data-page-node-id="weSEJzlX78v9J5lAhEQlja"/></svg></button>
   </div>
 </div>
 </div>
